@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="stadiumDome" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#020617" />
+      <stop offset="60%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="grassLight" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#15803d" />
+      <stop offset="100%" stop-color="#16a34a" />
+    </linearGradient>
+    <linearGradient id="grassDark" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#14532d" />
+      <stop offset="100%" stop-color="#166534" />
+    </linearGradient>
+  </defs>
+
+  <!-- Stadium Arena Backdrop -->
+  <rect width="800" height="600" fill="url(#stadiumDome)" />
+  <!-- Stadium Seating Rows around pitch -->
+  <ellipse cx="400" cy="300" rx="380" ry="240" fill="#0f172a" stroke="#334155" stroke-width="6" />
+
+  <!-- Stadium Floodlights Glow -->
+  <g fill="#fef08a" opacity="0.15">
+    <polygon points="60,60 200,260 360,180" />
+    <polygon points="740,60 600,260 440,180" />
+  </g>
+  <circle cx="60" cy="60" r="16" fill="#fef08a" />
+  <circle cx="740" cy="60" r="16" fill="#fef08a" />
+
+  <!-- Skewed Parallelogram Football Pitch under Camera Tilt Angle:
+       Base width: ~500px, Height: ~240px, Skew offset: ~120px
+       Top Left: (210, 180)
+       Top Right: (710, 180)
+       Bottom Right: (590, 420)
+       Bottom Left: (90, 420)
+       Notice: Opposite sides are strictly parallel and equal!
+  -->
+  <g id="pitch">
+    <!-- Turf alternating mown stripes in perspective parallelogram -->
+    <clipPath id="pitchClip">
+      <polygon points="210,180 710,180 590,420 90,420" />
+    </clipPath>
+
+    <!-- Base Turf -->
+    <polygon points="210,180 710,180 590,420 90,420" fill="url(#grassLight)" stroke="#f8fafc" stroke-width="4" stroke-linejoin="round" />
+
+    <!-- Stripes clip -->
+    <g clip-path="url(#pitchClip)">
+      <polygon points="272,180 335,180 215,420 152,420" fill="url(#grassDark)" opacity="0.65" />
+      <polygon points="397,180 460,180 340,420 277,420" fill="url(#grassDark)" opacity="0.65" />
+      <polygon points="522,180 585,180 465,420 402,420" fill="url(#grassDark)" opacity="0.65" />
+      <polygon points="647,180 710,180 590,420 527,420" fill="url(#grassDark)" opacity="0.65" />
+    </g>
+
+    <!-- Pitch White Line Markings (Perspective Affine Parallelogram) -->
+    <!-- Halfway Line connecting (460, 180) to (340, 420) -->
+    <line x1="460" y1="180" x2="340" y2="420" stroke="#f8fafc" stroke-width="3" />
+
+    <!-- Center Circle (Affine Ellipse) centered at (400, 300) -->
+    <ellipse cx="400" cy="300" rx="55" ry="32" fill="none" stroke="#f8fafc" stroke-width="3" transform="skewX(-26)" />
+    <circle cx="400" cy="300" r="4" fill="#ffffff" />
+
+    <!-- Left Goal Penalty Box -->
+    <polygon points="210,240 270,240 230,360 130,360" fill="none" stroke="#f8fafc" stroke-width="3" opacity="0.9" />
+    
+    <!-- Right Goal Penalty Box -->
+    <polygon points="650,240 710,240 590,360 530,360" fill="none" stroke="#f8fafc" stroke-width="3" opacity="0.9" />
+  </g>
+
+  <!-- Labels -->
+  <text x="400" y="460" fill="#4ade80" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">PARALLELOGRAM: Base × Perpendicular Height</text>
+</svg>

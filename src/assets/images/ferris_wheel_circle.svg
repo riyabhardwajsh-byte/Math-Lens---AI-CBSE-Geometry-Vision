@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#050814" />
+      <stop offset="60%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#0284c7" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="metalRim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#818cf8" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Night Sky -->
+  <rect width="800" height="600" fill="url(#skyGrad)" />
+  
+  <!-- Ground Silhouette -->
+  <path d="M0 540 Q 200 520, 400 530 T 800 540 L 800 600 L 0 600 Z" fill="#030712" />
+  
+  <!-- Boarding Platform & Support Legs (A-Frame) -->
+  <line x1="280" y1="550" x2="400" y2="300" stroke="#334155" stroke-width="12" stroke-linecap="round" />
+  <line x1="520" y1="550" x2="400" y2="300" stroke="#334155" stroke-width="12" stroke-linecap="round" />
+  <line x1="310" y1="550" x2="400" y2="300" stroke="#64748b" stroke-width="6" stroke-linecap="round" />
+  <line x1="490" y1="550" x2="400" y2="300" stroke="#64748b" stroke-width="6" stroke-linecap="round" />
+  <line x1="330" y1="450" x2="470" y2="450" stroke="#475569" stroke-width="6" />
+
+  <!-- Central Hub Glow -->
+  <circle cx="400" cy="300" r="80" fill="url(#hubGlow)" />
+
+  <!-- Outer Wheel Rim (Radius ~240px) -->
+  <circle cx="400" cy="300" r="248" fill="none" stroke="#1e293b" stroke-width="12" />
+  <circle cx="400" cy="300" r="240" fill="none" stroke="url(#metalRim)" stroke-width="5" filter="url(#glow)" />
+  <circle cx="400" cy="300" r="220" fill="none" stroke="#38bdf8" stroke-width="2.5" opacity="0.6" stroke-dasharray="8 6" />
+
+  <!-- Spoke Truss Structure (16 Radial Spokes) -->
+  <g stroke="#94a3b8" stroke-width="2" opacity="0.85">
+    <line x1="400" y1="300" x2="400" y2="60" />
+    <line x1="400" y1="300" x2="400" y2="540" />
+    <line x1="400" y1="300" x2="160" y2="300" />
+    <line x1="400" y1="300" x2="640" y2="300" />
+    <line x1="400" y1="300" x2="230.3" y2="130.3" />
+    <line x1="400" y1="300" x2="569.7" y2="469.7" />
+    <line x1="400" y1="300" x2="230.3" y2="469.7" />
+    <line x1="400" y1="300" x2="569.7" y2="130.3" />
+    <line x1="400" y1="300" x2="308.2" y2="78.5" />
+    <line x1="400" y1="300" x2="491.8" y2="521.5" />
+    <line x1="400" y1="300" x2="491.8" y2="78.5" />
+    <line x1="400" y1="300" x2="308.2" y2="521.5" />
+    <line x1="400" y1="300" x2="178.5" y2="208.2" />
+    <line x1="400" y1="300" x2="621.5" y2="391.8" />
+    <line x1="400" y1="300" x2="178.5" y2="391.8" />
+    <line x1="400" y1="300" x2="621.5" y2="208.2" />
+  </g>
+
+  <!-- Passenger Cabins / Gondolas at 16 peripheral points -->
+  <g fill="#0284c7" stroke="#38bdf8" stroke-width="2">
+    <!-- Top & Bottom -->
+    <rect x="390" y="48" width="20" height="24" rx="4" fill="#38bdf8" />
+    <rect x="390" y="528" width="20" height="24" rx="4" fill="#38bdf8" />
+    <rect x="148" y="290" width="24" height="20" rx="4" fill="#38bdf8" />
+    <rect x="628" y="290" width="24" height="20" rx="4" fill="#38bdf8" />
+    <!-- Diagonals -->
+    <circle cx="230.3" cy="130.3" r="10" fill="#f43f5e" />
+    <circle cx="569.7" cy="469.7" r="10" fill="#f43f5e" />
+    <circle cx="230.3" cy="469.7" r="10" fill="#f43f5e" />
+    <circle cx="569.7" cy="130.3" r="10" fill="#f43f5e" />
+    <circle cx="308.2" cy="78.5" r="9" fill="#eab308" />
+    <circle cx="491.8" cy="521.5" r="9" fill="#eab308" />
+    <circle cx="491.8" cy="78.5" r="9" fill="#eab308" />
+    <circle cx="308.2" cy="521.5" r="9" fill="#eab308" />
+    <circle cx="178.5" cy="208.2" r="9" fill="#10b981" />
+    <circle cx="621.5" cy="391.8" r="9" fill="#10b981" />
+    <circle cx="178.5" cy="391.8" r="9" fill="#10b981" />
+    <circle cx="621.5" cy="208.2" r="9" fill="#10b981" />
+  </g>
+
+  <!-- Central Axle Hub -->
+  <circle cx="400" cy="300" r="32" fill="#0f172a" stroke="#38bdf8" stroke-width="4" />
+  <circle cx="400" cy="300" r="14" fill="#38bdf8" />
+</svg>

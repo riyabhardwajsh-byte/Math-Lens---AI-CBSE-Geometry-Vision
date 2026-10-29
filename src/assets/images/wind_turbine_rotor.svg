@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="oceanSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#082f49" />
+      <stop offset="65%" stop-color="#0284c7" />
+      <stop offset="70%" stop-color="#0369a1" />
+      <stop offset="100%" stop-color="#0c4a6e" />
+    </linearGradient>
+    <linearGradient id="bladeGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="70%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#94a3b8" />
+    </linearGradient>
+    <radialGradient id="sweptGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="70%" stop-color="#38bdf8" stop-opacity="0.05" />
+      <stop offset="95%" stop-color="#38bdf8" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Ocean & Sky Background -->
+  <rect width="800" height="600" fill="url(#oceanSky)" />
+  <!-- Gentle waves -->
+  <path d="M0 450 Q 200 445, 400 450 T 800 450 L 800 600 L 0 600 Z" fill="#075985" />
+  <path d="M0 480 Q 200 475, 400 480 T 800 480 L 800 600 L 0 600 Z" fill="#034b73" />
+
+  <!-- Tubular Steel Tower: centered at x=400, going from base y=600 to hub y=270 -->
+  <polygon points="370,600 430,600 412,270 388,270" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2" />
+  <line x1="400" y1="270" x2="400" y2="600" stroke="#64748b" stroke-width="1.5" stroke-dasharray="8 6" />
+
+  <!-- Swept Circular Area Boundary (Radius = 230px, Center = (400, 270)) -->
+  <circle cx="400" cy="270" r="230" fill="url(#sweptGlow)" stroke="#38bdf8" stroke-width="2" stroke-dasharray="8 6" />
+  <circle cx="400" cy="270" r="230" fill="none" stroke="#67e8f9" stroke-width="1" opacity="0.4" />
+
+  <!-- Rotor Blades Group: Center at (400, 270) -->
+  <g transform="translate(400, 270)">
+    <!-- Blade 1 (Pointing roughly up, 0 deg) -->
+    <path d="M -8,0 C -16,-60 -24,-150 0,-230 C 24,-150 16,-60 8,0 Z" fill="url(#bladeGrad)" stroke="#64748b" stroke-width="1.5" />
+    <!-- Red warning stripes near tip -->
+    <path d="M -7,-190 C -6,-205 -4,-220 0,-230 C 4,-220 6,-205 7,-190 Z" fill="#ef4444" />
+
+    <!-- Blade 2 (Rotated 120 deg) -->
+    <g transform="rotate(120)">
+      <path d="M -8,0 C -16,-60 -24,-150 0,-230 C 24,-150 16,-60 8,0 Z" fill="url(#bladeGrad)" stroke="#64748b" stroke-width="1.5" />
+      <path d="M -7,-190 C -6,-205 -4,-220 0,-230 C 4,-220 6,-205 7,-190 Z" fill="#ef4444" />
+    </g>
+
+    <!-- Blade 3 (Rotated 240 deg) -->
+    <g transform="rotate(240)">
+      <path d="M -8,0 C -16,-60 -24,-150 0,-230 C 24,-150 16,-60 8,0 Z" fill="url(#bladeGrad)" stroke="#64748b" stroke-width="1.5" />
+      <path d="M -7,-190 C -6,-205 -4,-220 0,-230 C 4,-220 6,-205 7,-190 Z" fill="#ef4444" />
+    </g>
+
+    <!-- Aerodynamic Center Hub & Nacelle -->
+    <ellipse cx="0" cy="0" rx="22" ry="22" fill="#e2e8f0" stroke="#475569" stroke-width="3" />
+    <circle cx="0" cy="0" r="10" fill="#0284c7" stroke="#38bdf8" stroke-width="2" />
+  </g>
+
+  <!-- Telemetry labels -->
+  <text x="400" y="30" fill="#e0f2fe" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">SWEPT ROTOR DISK: Area = πr²</text>
+</svg>

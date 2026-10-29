@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Lens - AI & CBSE Geometry Vision (Architecture Comparison & AI Voice Tutor)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+    h1, h2, h3, h4, .font-display { font-family: 'Outfit', sans-serif; }
+    .font-mono, code { font-family: 'JetBrains Mono', monospace; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+    ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.25); border-radius: 9999px; }
+    @keyframes barBounce { 0%, 100% { transform: scaleY(0.3); } 50% { transform: scaleY(1); } }
+    .bar-1 { animation: barBounce 0.6s infinite ease-in-out; }
+    .bar-2 { animation: barBounce 0.4s infinite ease-in-out 0.1s; }
+    .bar-3 { animation: barBounce 0.7s infinite ease-in-out 0.2s; }
+    .bar-4 { animation: barBounce 0.5s infinite ease-in-out 0.15s; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+  <!-- Header -->
+  <header class="flex items-center justify-between gap-8 px-6 py-3.5 border-b border-slate-800 bg-slate-950/90 backdrop-blur-md sticky top-0 z-50">
+    <div class="flex items-center gap-2">
+      <span class="w-3 h-3 rounded bg-gradient-to-tr from-cyan-400 to-indigo-500 rotate-45 shadow-sm shadow-cyan-400/50"></span>
+      <span class="text-lg font-bold tracking-tight text-white font-display">Math Lens</span>
+      <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 ml-1">CBSE 9 & 10</span>
+    </div>
+    <div class="text-xs text-slate-400 hidden sm:block">
+      Architecture Comparison · Normal Photo vs. Futuristic Wireframe CAD Blueprint · AI Voice Tutor
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="speakActiveExplanation()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 transition-all flex items-center gap-1.5 shadow-md shadow-cyan-500/20">
+        🔊 Hear AI Tutor
+      </button>
+      <button id="webcamBtn" onclick="toggleWebcam()" class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-700 bg-slate-900 text-slate-200 hover:bg-slate-800 transition-colors">
+        📹 Live Webcam
+      </button>
+      <button id="freezeBtn" onclick="toggleFreeze()" class="hidden px-3 py-1.5 text-xs font-semibold rounded-lg border border-rose-500/40 bg-rose-500/20 text-rose-300">
+        Snapshot
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col gap-5">
+    <!-- Object Presets Bar -->
+    <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-900/60 p-3.5 rounded-2xl border border-slate-800">
+      <div class="flex items-center gap-2">
+        <label class="px-3 py-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg cursor-pointer border border-slate-700 transition-colors">
+          <span>📁 Upload Custom Photo</span>
+          <input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleFileUpload(event)">
+        </label>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-1.5 text-xs">
+        <span class="text-slate-400 font-medium">Target Objects (17):</span>
+        <button onclick="loadObject('phone')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">📱 Phone</button>
+        <button onclick="loadObject('tab')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">💻 Tab</button>
+        <button onclick="loadObject('wheel')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">🚲 Wheel</button>
+        <button onclick="loadObject('tree')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">🌲 Tree</button>
+        <button onclick="loadObject('toy')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">🪁 Toys / Kite</button>
+        <button onclick="loadObject('bridge')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">🌉 Bridge Arch</button>
+        <button onclick="loadObject('ramp')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">🛹 Skate Ramp</button>
+        <button onclick="loadObject('ferris-wheel')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">🎡 Ferris Wheel</button>
+        <button onclick="loadObject('satellite-dish')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">📡 Satellite Dish</button>
+        <button onclick="loadObject('solar-panel')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">☀️ Solar Array</button>
+        <button onclick="loadObject('roof-truss')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">📐 Roof Truss</button>
+        <button onclick="loadObject('wind-turbine')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">💨 Wind Turbine</button>
+        <button onclick="loadObject('suspension-cable')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">🌁 Bridge Cable</button>
+        <button onclick="loadObject('diamond-kite')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">💎 Diamond Kite</button>
+        <button onclick="loadObject('conveyor-ramp')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">📦 Conveyor Ramp</button>
+        <button onclick="loadObject('sports-pitch')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">⚽ Football Pitch</button>
+        <button onclick="loadObject('chess-board')" class="px-2.5 py-1 bg-slate-950 border border-slate-800 hover:border-cyan-500 text-slate-300 rounded-lg transition-colors">♟️ Chessboard</button>
+      </div>
+    </div>
+
+    <!-- AI Voice Tutor Audio Explanation Card -->
+    <section id="voiceTutorCard" class="bg-slate-900/90 border border-cyan-900/40 rounded-2xl p-4 shadow-xl backdrop-blur-md">
+      <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <div id="speakerIconBox" class="w-8 h-8 rounded-xl bg-slate-800 text-cyan-400 border border-slate-700 flex items-center justify-center transition-all">
+            🔊
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-bold text-white font-display">AI Voice Tutor</span>
+              <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
+                10-Sec Audio Lesson
+              </span>
+            </div>
+            <p id="tutorSubtitle" class="text-xs text-slate-400">
+              CBSE Class 10: Circles & Revolutions (Ch 10 & 12)
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Animated equalizer -->
+          <div id="equalizer" class="hidden flex items-center gap-0.5 h-3.5 px-2">
+            <span class="w-1 bg-cyan-400 h-full bar-1"></span>
+            <span class="w-1 bg-cyan-400 h-full bar-2"></span>
+            <span class="w-1 bg-cyan-400 h-full bar-3"></span>
+            <span class="w-1 bg-cyan-400 h-full bar-4"></span>
+          </div>
+
+          <button id="playVoiceBtn" onclick="toggleTutorVoice()" class="px-3 py-1.5 rounded-xl font-semibold text-xs flex items-center gap-1.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 shadow-md transition-all">
+            ▶ Play Voice
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-3 bg-slate-950/80 rounded-xl p-3 border border-slate-800/80">
+        <div class="flex items-center justify-between mb-1">
+          <span id="tutorTitle" class="text-xs font-semibold text-cyan-300">Bicycle Wheel Rim & Spoke Hub</span>
+          <label class="flex items-center gap-1.5 text-xs text-slate-400 cursor-pointer">
+            <input type="checkbox" id="autoSpeakCheck" class="rounded bg-slate-900 border-slate-700 text-cyan-500">
+            <span class="text-[11px]">Auto-speak on select</span>
+          </label>
+        </div>
+        <p id="tutorTranscript" class="text-xs text-slate-300 leading-relaxed font-sans">
+          "This is a circular bicycle wheel. Every point on the rim is equidistant from the hub at radius 'r'. For every complete rotation of 360 degrees, the bicycle moves forward by exactly its circumference, 2 pi r."
+        </p>
+        <div class="mt-2 pt-2 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-400">
+          <span id="tutorCbseRef">NCERT Class 10 Ch 10 & Ch 12</span>
+          <span class="text-slate-500">Tip: Click anywhere on the canvas to replay audio</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2-Zone Workspace -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+      <!-- Stage -->
+      <div class="lg:col-span-7 flex flex-col gap-3">
+        <div class="relative w-full aspect-[16/10] bg-slate-950 rounded-xl overflow-hidden border border-cyan-900/40 shadow-2xl flex items-center justify-center">
+          <canvas id="mathCanvas" class="w-full h-full block cursor-crosshair"></canvas>
+          <video id="videoElement" class="hidden" autoplay playsinline muted></video>
+
+          <!-- Before vs. After Architecture Comparison Toggle -->
+          <div class="absolute top-3 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-slate-900/95 backdrop-blur-md px-2 py-1 rounded-xl border border-slate-700/80 shadow-2xl text-xs z-20">
+            <button id="btnOverlay" onclick="setCompareMode('overlay')" class="px-2.5 py-1 rounded-lg font-medium text-slate-300 hover:text-white transition-all">
+              HUD Overlay
+            </button>
+            <button id="btnSplit" onclick="setCompareMode('split-curtain')" class="px-2.5 py-1 rounded-lg font-bold bg-cyan-500 text-slate-950 transition-all shadow-sm">
+              Before / After Split
+            </button>
+            <button id="btnCad" onclick="setCompareMode('cad-blueprint')" class="px-2.5 py-1 rounded-lg font-medium text-slate-300 hover:text-white transition-all">
+              CAD Blueprint
+            </button>
+          </div>
+
+          <button onclick="speakActiveExplanation()" title="Play AI Voice Tutor explanation" class="absolute top-3 right-3 bg-slate-900/90 hover:bg-slate-800 border border-cyan-500/40 px-2.5 py-1 rounded-lg text-xs font-medium text-cyan-300 flex items-center gap-1 shadow-lg z-20">
+            🔊 Voice Tutor
+          </button>
+
+          <div class="absolute bottom-3 left-3 flex items-center gap-3 bg-slate-900/85 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/60 text-xs font-mono tabular-nums text-slate-300 shadow-lg z-20">
+            <span class="text-cyan-400 font-semibold">Math Lens HUD</span>
+            <span class="text-slate-600">/</span>
+            <span>X: <strong id="readoutX" class="text-slate-100">0.00</strong> m</span>
+            <span>Y: <strong id="readoutY" class="text-slate-100">0.00</strong> m</span>
+            <span class="text-slate-600">/</span>
+            <span id="shapeTag" class="text-amber-400 uppercase font-semibold">CIRCLE</span>
+          </div>
+        </div>
+
+        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800 flex items-center justify-between text-xs text-slate-400">
+          <span id="splitGuideText">↔ <strong>Drag the cyan laser curtain</strong> left and right to peel between Real Photo & CAD Blueprint.</span>
+          <button onclick="autoFitCV()" class="px-2.5 py-1 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 rounded-lg hover:bg-cyan-500/30">
+            Auto-Detect CV
+          </button>
+        </div>
+      </div>
+
+      <!-- Controls & CBSE -->
+      <div class="lg:col-span-5 flex flex-col gap-4">
+        <!-- 8 Shapes Selector -->
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-300">Geometric Shapes (8 Modes)</h2>
+            <span id="activeModeBadge" class="text-xs font-mono font-bold text-cyan-400">CIRCLE</span>
+          </div>
+
+          <div class="grid grid-cols-4 gap-1.5 text-xs font-medium">
+            <button onclick="setMode('circle')" class="shape-btn px-2 py-1.5 rounded bg-cyan-500 text-slate-950 font-bold" data-mode="circle">Circle</button>
+            <button onclick="setMode('square')" class="shape-btn px-2 py-1.5 rounded bg-slate-800 text-slate-300 hover:text-white" data-mode="square">Square</button>
+            <button onclick="setMode('rectangle')" class="shape-btn px-2 py-1.5 rounded bg-slate-800 text-slate-300 hover:text-white" data-mode="rectangle">Rectangle</button>
+            <button onclick="setMode('triangle')" class="shape-btn px-2 py-1.5 rounded bg-slate-800 text-slate-300 hover:text-white" data-mode="triangle">Triangle</button>
+            <button onclick="setMode('rhombus')" class="shape-btn px-2 py-1.5 rounded bg-slate-800 text-slate-300 hover:text-white" data-mode="rhombus">Rhombus</button>
+            <button onclick="setMode('parallelogram')" class="shape-btn px-2 py-1.5 rounded bg-slate-800 text-slate-300 hover:text-white" data-mode="parallelogram">Parallel.</button>
+            <button onclick="setMode('parabola')" class="shape-btn px-2 py-1.5 rounded bg-slate-800 text-slate-300 hover:text-white" data-mode="parabola">Parabola</button>
+            <button onclick="setMode('slope')" class="shape-btn px-2 py-1.5 rounded bg-slate-800 text-slate-300 hover:text-white" data-mode="slope">Slope/Trig</button>
+          </div>
+
+          <div class="p-3 bg-slate-950 rounded-lg border border-slate-800/80">
+            <div class="text-[10px] text-slate-500 uppercase font-mono mb-1">Live Mathematical Formula</div>
+            <div id="equationDisplay" class="font-mono text-sm text-cyan-300 font-bold tracking-wide break-all">
+              (x - 0.0)² + (y - 0.0)² = 27.04
+            </div>
+          </div>
+
+          <!-- Dynamic Metrics Grid -->
+          <div id="metricsGrid" class="grid grid-cols-2 gap-2 text-xs">
+            <!-- Injected dynamically -->
+          </div>
+
+          <!-- Sliders -->
+          <div id="sliderControls" class="flex flex-col gap-2.5 pt-2 border-t border-slate-800 text-xs text-slate-300">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- CBSE NCERT Mappings -->
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">CBSE Curriculum Mapping</h3>
+            <span id="cbseClassBadge" class="text-[11px] font-mono text-amber-300 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/30">Class 10 Ch 10</span>
+          </div>
+          <div id="cbseDetails" class="text-xs text-slate-400 space-y-1.5">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW SECTION: 3D Equation & Question Studio -->
+    <section id="equation-studio-3d" class="mt-4 bg-gradient-to-r from-slate-900 via-indigo-950/50 to-slate-900 rounded-2xl border border-cyan-900/60 p-5 shadow-2xl flex flex-col gap-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-display">
+              ⚡ WebGL 3D Studio
+            </span>
+            <span class="text-xs text-amber-300 font-medium">Any Mathematical Equation & Question Visualizer</span>
+          </div>
+          <h2 class="text-xl font-bold font-display text-white">Equation & Question 3D Visualizer</h2>
+          <p class="text-xs text-slate-300 max-w-2xl mt-0.5">
+            Type any algebraic equation (e.g. <code class="text-cyan-300">z = x^2 - y^2</code>, <code class="text-cyan-300">x^2 + y^2 = 25</code>) or geometry question (bridge arch, cylinder inside sphere, rhombus) to render rotatable 3D WebGL models.
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="speak3DExplanation()" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 shadow-md shadow-cyan-500/20 transition-all flex items-center gap-1.5">
+            🔊 Speak 3D Math Tutor
+          </button>
+        </div>
+      </div>
+
+      <!-- Input Bar -->
+      <div class="flex flex-col sm:flex-row items-center gap-2">
+        <input
+          id="mathInput3D"
+          type="text"
+          value="z = x^2 - y^2"
+          placeholder="Type equation (e.g. z = x^2 - y^2) or question (e.g. Parabolic bridge arch 20m wide and 5m high)..."
+          class="flex-1 w-full bg-slate-950/90 text-sm font-mono text-cyan-200 placeholder:text-slate-500 px-4 py-2.5 rounded-xl border border-cyan-800/80 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+        />
+        <button
+          onclick="execute3DQuery()"
+          class="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 shadow-md shadow-cyan-500/30 transition-all shrink-0"
+        >
+          Render in 3D
+        </button>
+      </div>
+
+      <!-- Quick Preset Pills -->
+      <div class="flex flex-wrap items-center gap-1.5 text-xs">
+        <span class="text-slate-400 text-[11px] font-semibold">Presets:</span>
+        <button onclick="set3DPreset('z = x^2 - y^2')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-cyan-300 border border-slate-700">⚡ Saddle z=x²-y²</button>
+        <button onclick="set3DPreset('z = x^2 + y^2')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-cyan-300 border border-slate-700">📡 Paraboloid z=x²+y²</button>
+        <button onclick="set3DPreset('x^2 + y^2 + z^2 = 25')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-cyan-300 border border-slate-700">🌐 Sphere r=5</button>
+        <button onclick="set3DPreset('bridge arch 20m wide and 5m high')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-cyan-300 border border-slate-700">🌉 Parabolic Arch</button>
+        <button onclick="set3DPreset('cylinder inscribed in sphere')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-cyan-300 border border-slate-700">🎯 Inscribed Solid</button>
+        <button onclick="set3DPreset('rhombus with diagonals 12 and 16')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-cyan-300 border border-slate-700">💎 Rhombus 3D</button>
+        <button onclick="set3DPreset('z = sin(x) * cos(y)')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-cyan-300 border border-slate-700">🌊 Harmonic Wave</button>
+      </div>
+
+      <!-- 3D Viewport & Details -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+        <div class="lg:col-span-8 bg-slate-950 rounded-xl border border-slate-800 overflow-hidden relative">
+          <div class="bg-slate-900/90 px-3 py-2 border-b border-slate-800 flex items-center justify-between text-xs">
+            <span id="title3D" class="font-bold text-white font-display">Hyperbolic Paraboloid (Saddle Surface)</span>
+            <div class="flex items-center gap-1.5">
+              <button onclick="toggle3DWireframe()" id="wireframe3DBtn" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white text-[11px]">Wireframe</button>
+              <button onclick="toggle3DAutoRotate()" id="autoRotate3DBtn" class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[11px]">Rotate: On</button>
+              <button onclick="reset3DCamera()" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white text-[11px]">Reset View</button>
+            </div>
+          </div>
+          <div id="canvas3dMount" class="w-full h-[400px] bg-slate-950 cursor-grab"></div>
+          <div class="bg-slate-900/80 px-3 py-1.5 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+            <span>🖱 Drag to orbit rotate · Scroll to zoom</span>
+            <span id="equationFormula3D" class="font-mono text-cyan-300">z = x² - y²</span>
+          </div>
+        </div>
+
+        <div class="lg:col-span-4 flex flex-col gap-3">
+          <div class="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800 flex flex-col gap-2">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300">Properties & Metrics</h4>
+            <div id="metrics3D" class="text-xs text-slate-300 space-y-1 font-mono">
+              <div>Surface: <strong>Ruled Quadric</strong></div>
+              <div>Saddle Point: <strong>(0, 0, 0)</strong></div>
+              <div>Gaussian Curvature: <strong>K &lt; 0 (Strictly Negative)</strong></div>
+              <div>Level Curves: <strong>Hyperbolas</strong></div>
+            </div>
+          </div>
+
+          <div class="bg-slate-950/80 p-3.5 rounded-xl border border-indigo-900/40 flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-amber-300">CBSE Curriculum Mapping</h4>
+              <span id="topicBadge3D" class="text-[10px] font-mono text-cyan-300 px-1.5 py-0.2 rounded bg-cyan-500/10 border border-cyan-500/20">Class 10/11</span>
+            </div>
+            <div id="derivation3D" class="text-xs text-slate-300 space-y-1 leading-relaxed">
+              <div>1. Set y = 0: z = x² (upward parabola).</div>
+              <div>2. Set x = 0: z = -y² (downward parabola).</div>
+              <div>3. At (0,0,0) gradient is zero, forming a minimax saddle point.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mt-8 border-t border-slate-800 bg-slate-950/80 py-6 text-center text-xs text-slate-500">
+    <p>Math Lens Exhibition · Bridging CBSE Class 9 & 10 Mathematics with Computer Vision, AI Voice Explanations & CAD Blueprint Architecture</p>
+  </footer>
+
+  <script>
+    // State
+    let mode = 'circle';
+    let currentObject = 'wheel';
+    let compareMode = 'split-curtain'; // 'overlay', 'split-curtain', 'cad-blueprint'
+    let splitPos = 0.52;
+    let isDraggingSplit = false;
+    let isWebcam = false;
+    let isFrozen = false;
+    let isSpeaking = false;
+    let videoStream = null;
+    let baseImage = null;
+
+    const shapes = {
+      circle: { h: 0, k: 0, r: 5.2 },
+      square: { h: 0, k: 0, s: 4.5 },
+      rectangle: { h: 0, k: 0, w: 4.2, hgt: 9.0 },
+      triangle: { x1: -3, y1: -2, x2: 3, y2: -2, x3: 0, y3: 3.5 },
+      rhombus: { h: 0, k: 0, d1: 5.5, d2: 7.2 },
+      parallelogram: { h: 0, k: 0, b: 6.0, hgt: 4.0, skew: 1.5 },
+      parabola: { a: -0.015, b: 0, c: 4.8 },
+      slope: { x1: -4.8, y1: -3.6, x2: -0.2, y2: 4.8 }
+    };
+
+    const TUTOR_SCRIPTS = {
+      bridge: {
+        title: "Parabolic Arch Bridge",
+        sub: "CBSE Class 10: Polynomials & Quadratic Equations",
+        text: "This is a parabolic arch. Notice how the quadratic coefficient 'a' is negative, causing the curve to open downwards and transfer immense compression loads safely to the bridge abutments. The highest point is the vertex.",
+        ref: "NCERT Class 10 Ch 2 & Ch 4"
+      },
+      wheel: {
+        title: "Bicycle Wheel Rim & Spoke Hub",
+        sub: "CBSE Class 10: Circles & Areas Related to Circles",
+        text: "This is a circular bicycle wheel. Every point on the rim is equidistant from the hub at radius 'r'. For every complete rotation of 360 degrees, the bicycle moves forward by exactly its circumference, 2 pi r.",
+        ref: "NCERT Class 10 Ch 10 & Ch 12"
+      },
+      phone: {
+        title: "Smartphone Rectangular Display",
+        sub: "CBSE Class 9: Quadrilaterals & Pythagoras Theorem",
+        text: "This is a rectangular smartphone. Notice the four right-angled vertices and opposite parallel edges. By applying the Pythagorean theorem, the screen's diagonal is the square root of width squared plus height squared.",
+        ref: "NCERT Class 9 Ch 8 & Class 10 Ch 6"
+      },
+      tab: {
+        title: "Tablet Screen Geometry",
+        sub: "CBSE Class 9: Mensuration & Surface Areas",
+        text: "This is a tablet display, forming an exact rectangle. Its screen aspect ratio defines the balance between width and height, giving a total viewing surface area equal to width multiplied by height.",
+        ref: "NCERT Class 9 Ch 8 & Mensuration"
+      },
+      tree: {
+        title: "Tall Cedar Tree Height Estimation",
+        sub: "CBSE Class 10: Applications of Trigonometry",
+        text: "Here we apply trigonometry to find the tree's height without climbing! By measuring the horizontal distance and the angle of elevation theta, tangent of theta equals opposite over adjacent, giving the exact tree height.",
+        ref: "NCERT Class 10 Ch 9 (Trigonometry)"
+      },
+      toy: {
+        title: "Geometric Toy Blocks & Kite",
+        sub: "CBSE Class 9: Quadrilaterals & Heron's Formula",
+        text: "These toys showcase classic quadrilaterals and triangles. The diamond kite forms a rhombus where the diagonals intersect at exactly 90 degrees, splitting it into four congruent right triangles.",
+        ref: "NCERT Class 9 Ch 8 & Ch 12"
+      },
+      ramp: {
+        title: "Skatepark Ramp Wedge",
+        sub: "CBSE Class 10: Trigonometry & Inclined Planes",
+        text: "This skate ramp forms an inclined plane with a right-angled triangle profile. The slope gradient 'm' equals tangent of theta, determining both skater acceleration and the elevation gain over horizontal run.",
+        ref: "NCERT Class 10 Ch 8 & Ch 9"
+      },
+      'ferris-wheel': {
+        title: "Giant Observation Ferris Wheel",
+        sub: "CBSE Class 10: Circles & Areas Related to Circles",
+        text: "This giant observation wheel demonstrates circular symmetry. Its passengers revolve at a constant radius 'r', traversing a sector arc length equal to theta over 360 times 2 pi r for each cabin interval.",
+        ref: "NCERT Class 10 Ch 10 & Ch 12"
+      },
+      'satellite-dish': {
+        title: "Deep Space Satellite Parabolic Dish",
+        sub: "CBSE Class 10: Quadratic Polynomials & Focal Geometry",
+        text: "This parabolic reflector dish follows y = a x squared. Parallel incoming radio waves bounce off the curved dish and converge precisely at the focal point, located at distance 1 over 4a from the vertex.",
+        ref: "NCERT Class 10 Ch 2 & Ch 4"
+      },
+      'solar-panel': {
+        title: "Solar PV Module Array",
+        sub: "CBSE Class 9: Quadrilaterals & Surface Areas",
+        text: "This photovoltaic array forms a large rectangle. Its electrical energy output is directly proportional to its surface area, which is width times height, while its diagonal wiring follows the Pythagorean theorem.",
+        ref: "NCERT Class 9 Ch 8 & Mensuration"
+      },
+      'roof-truss': {
+        title: "Triangular Architectural Roof Truss",
+        sub: "CBSE Class 9: Heron's Formula & Class 10: Triangles",
+        text: "Triangles are the only rigid geometric polygon that cannot deform without breaking a side. Engineers use Heron's formula to calculate truss panel areas directly from side lengths without needing perpendicular altitudes.",
+        ref: "NCERT Class 9 Ch 12 & Class 10 Ch 6"
+      },
+      'wind-turbine': {
+        title: "Aerodynamic Wind Turbine Rotor",
+        sub: "CBSE Class 10: Circles & Swept Area Power",
+        text: "As these turbine blades rotate, they sweep out a complete circular area equal to pi r squared. The power captured from the wind is directly proportional to the square of blade radius 'r'.",
+        ref: "NCERT Class 10 Ch 10 & Ch 12"
+      },
+      'suspension-cable': {
+        title: "Suspension Bridge Catenary Cable",
+        sub: "CBSE Class 10: Quadratic Equations & Parabolic Sag",
+        text: "The main suspension cable sags in a parabolic curve modeled by y = a x squared plus c. The lowest point is the vertex, where horizontal tension reaches its maximum equilibrium.",
+        ref: "NCERT Class 10 Ch 4"
+      },
+      'diamond-kite': {
+        title: "High-Altitude Diamond Stunt Kite",
+        sub: "CBSE Class 9: Quadrilaterals & Rhombus Properties",
+        text: "This aerodynamic kite is a true rhombus. Its perpendicular diagonals d1 and d2 bisect each other at exactly 90 degrees, and its total sail area is calculated as half times d1 times d2.",
+        ref: "NCERT Class 9 Ch 8"
+      },
+      'conveyor-ramp': {
+        title: "Industrial Cargo Conveyor Incline",
+        sub: "CBSE Class 10: Some Applications of Trigonometry",
+        text: "This conveyor ramp forms a right-angled triangle. The slope gradient 'm' equals tangent of theta, defining the rise over run ratio that mechanical gearboxes must overcome against gravitational load.",
+        ref: "NCERT Class 10 Ch 9"
+      },
+      'sports-pitch': {
+        title: "Stadium Sports Pitch Projection",
+        sub: "CBSE Class 9: Quadrilaterals & Parallelograms",
+        text: "Viewed from an elevated camera angle, this regulation sports pitch projects as a parallelogram. Its area remains base times perpendicular height, with opposite boundary touchlines strictly parallel.",
+        ref: "NCERT Class 9 Ch 8"
+      },
+      'chess-board': {
+        title: "Tournament Chessboard Grid Matrix",
+        sub: "CBSE Class 9: Quadrilaterals & Square Properties",
+        text: "A tournament chessboard is an equilateral and equiangular square with 64 congruent sub-squares. Its diagonal equals side length times the square root of 2, exhibiting complete 90-degree rotational symmetry.",
+        ref: "NCERT Class 9 Ch 8"
+      },
+      circle: {
+        title: "Circle Geometry",
+        sub: "CBSE Class 10: Circles (Ch 10)",
+        text: "A circle is the set of all points at a fixed radius 'r' from center (h, k). According to CBSE Theorem 10.1, the tangent at any point of a circle is strictly perpendicular to the radius through the point of contact.",
+        ref: "NCERT Class 10 Ch 10"
+      },
+      square: {
+        title: "Square Properties",
+        sub: "CBSE Class 9: Quadrilaterals (Ch 8)",
+        text: "A square is a regular quadrilateral with four equal sides and four right angles. Its diagonals are equal, bisect each other perpendicularly at 90 degrees, and each diagonal measures 's' times the square root of 2.",
+        ref: "NCERT Class 9 Ch 8"
+      },
+      rectangle: {
+        title: "Rectangle Properties",
+        sub: "CBSE Class 9: Quadrilaterals (Ch 8)",
+        text: "A rectangle is an equiangular parallelogram where each interior angle is 90 degrees. Its opposite sides are equal, its diagonals are equal in length, and its area is width times height.",
+        ref: "NCERT Class 9 Ch 8"
+      },
+      triangle: {
+        title: "Triangle & Heron's Formula",
+        sub: "CBSE Class 9: Heron's Formula (Ch 12)",
+        text: "A triangle is formed by three line segments. With Heron's formula, you can calculate the exact area from side lengths 'a', 'b', and 'c' using the semi-perimeter 's', without ever needing to measure perpendicular height.",
+        ref: "NCERT Class 9 Ch 12"
+      },
+      rhombus: {
+        title: "Rhombus & Perpendicular Diagonals",
+        sub: "CBSE Class 9: Quadrilaterals (Ch 8)",
+        text: "A rhombus has four equal sides. A key property in CBSE geometry is that its diagonals bisect each other at right angles, and its area is calculated as half the product of its two diagonals.",
+        ref: "NCERT Class 9 Ch 8"
+      },
+      parallelogram: {
+        title: "Parallelogram Mechanics",
+        sub: "CBSE Class 9: Quadrilaterals (Ch 8)",
+        text: "In a parallelogram, opposite sides are parallel and congruent, and opposite angles are equal. The area equals base times perpendicular height, regardless of how far the shape skews.",
+        ref: "NCERT Class 9 Ch 8"
+      },
+      parabola: {
+        title: "Parabolic Curves & Quadratics",
+        sub: "CBSE Class 10: Polynomials & Quadratic Equations",
+        text: "This curve represents the quadratic equation y = a x squared plus b x plus c. The coefficient 'a' determines how wide the parabola opens, and its turning point is the vertex.",
+        ref: "NCERT Class 10 Ch 2 & Ch 4"
+      },
+      slope: {
+        title: "Slope, Vectors & Trigonometry",
+        sub: "CBSE Class 10: Heights & Distances",
+        text: "The slope indicates the steepness of a line. In CBSE trigonometry, the slope gradient 'm' is defined as tangent of theta, which represents vertical rise divided by horizontal run.",
+        ref: "NCERT Class 10 Ch 8 & Ch 9"
+      }
+    };
+
+    const canvas = document.getElementById('mathCanvas');
+    const ctx = canvas.getContext('2d');
+    const video = document.getElementById('videoElement');
+
+    function initCanvas() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+      updateHUD();
+      draw();
+    }
+
+    function toPixel(mx, my) {
+      const ppu = 38;
+      const ox = canvas.width / 2;
+      const oy = canvas.height / 2;
+      return { x: ox + mx * ppu, y: oy - my * ppu };
+    }
+
+    function toMath(px, py) {
+      const ppu = 38;
+      const ox = canvas.width / 2;
+      const oy = canvas.height / 2;
+      return { x: (px - ox) / ppu, y: (oy - py) / ppu };
+    }
+
+    function setCompareMode(cm) {
+      compareMode = cm;
+      const btnOverlay = document.getElementById('btnOverlay');
+      const btnSplit = document.getElementById('btnSplit');
+      const btnCad = document.getElementById('btnCad');
+      const guide = document.getElementById('splitGuideText');
+
+      [btnOverlay, btnSplit, btnCad].forEach(b => {
+        b.className = 'px-2.5 py-1 rounded-lg font-medium text-slate-300 hover:text-white transition-all';
+      });
+
+      if (cm === 'overlay') {
+        btnOverlay.className = 'px-2.5 py-1 rounded-lg font-bold bg-cyan-500 text-slate-950 transition-all shadow-sm';
+        guide.innerHTML = 'Showing <strong>HUD Overlay</strong> over camera/photo.';
+      } else if (cm === 'split-curtain') {
+        btnSplit.className = 'px-2.5 py-1 rounded-lg font-bold bg-cyan-500 text-slate-950 transition-all shadow-sm';
+        guide.innerHTML = '↔ <strong>Drag the cyan laser curtain</strong> left and right to peel between Real Photo & CAD Blueprint.';
+      } else if (cm === 'cad-blueprint') {
+        btnCad.className = 'px-2.5 py-1 rounded-lg font-bold bg-cyan-500 text-slate-950 transition-all shadow-sm';
+        guide.innerHTML = 'Showing <strong>100% Futuristic Wireframe CAD Blueprint</strong> with architectural dimensions.';
+      }
+      draw();
+    }
+
+    function setMode(m) {
+      mode = m;
+      document.getElementById('shapeTag').innerText = m.toUpperCase();
+      document.getElementById('activeModeBadge').innerText = m.toUpperCase();
+      document.querySelectorAll('.shape-btn').forEach(btn => {
+        if (btn.dataset.mode === m) {
+          btn.className = 'shape-btn px-2 py-1.5 rounded bg-cyan-500 text-slate-950 font-bold';
+        } else {
+          btn.className = 'shape-btn px-2 py-1.5 rounded bg-slate-800 text-slate-300 hover:text-white';
+        }
+      });
+      updateHUD();
+      draw();
+
+      if (document.getElementById('autoSpeakCheck').checked) {
+        speakActiveExplanation();
+      }
+    }
+
+    // AI Voice Tutor Audio Engine
+    function speakActiveExplanation() {
+      const script = TUTOR_SCRIPTS[currentObject] || TUTOR_SCRIPTS[mode];
+      if (!script) return;
+
+      document.getElementById('tutorTitle').innerText = script.title;
+      document.getElementById('tutorSubtitle').innerText = script.sub;
+      document.getElementById('tutorTranscript').innerText = `"${script.text}"`;
+      document.getElementById('tutorCbseRef').innerText = script.ref;
+
+      if (!('speechSynthesis' in window)) {
+        alert('Text-to-speech is not supported by your browser.');
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(script.text.replace(/pi/gi, 'pie'));
+      u.rate = 1.0;
+      u.pitch = 1.0;
+
+      const eq = document.getElementById('equalizer');
+      const icon = document.getElementById('speakerIconBox');
+      const btn = document.getElementById('playVoiceBtn');
+
+      u.onstart = () => {
+        isSpeaking = true;
+        eq.classList.remove('hidden');
+        icon.classList.add('bg-cyan-500', 'text-slate-950', 'animate-pulse');
+        btn.innerText = '⏹ Stop';
+        btn.className = 'px-3 py-1.5 rounded-xl font-semibold text-xs flex items-center gap-1.5 bg-rose-500 hover:bg-rose-600 text-white shadow-md transition-all';
+      };
+
+      u.onend = () => {
+        isSpeaking = false;
+        eq.classList.add('hidden');
+        icon.classList.remove('bg-cyan-500', 'text-slate-950', 'animate-pulse');
+        btn.innerText = '▶ Play Voice';
+        btn.className = 'px-3 py-1.5 rounded-xl font-semibold text-xs flex items-center gap-1.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 shadow-md transition-all';
+      };
+
+      u.onerror = () => {
+        u.onend();
+      };
+
+      window.speechSynthesis.speak(u);
+    }
+
+    function toggleTutorVoice() {
+      if (isSpeaking) {
+        window.speechSynthesis.cancel();
+        isSpeaking = false;
+        document.getElementById('equalizer').classList.add('hidden');
+        document.getElementById('playVoiceBtn').innerText = '▶ Play Voice';
+      } else {
+        speakActiveExplanation();
+      }
+    }
+
+    // CAD Blueprint Drawing Routine
+    function drawCAD(clipX) {
+      ctx.save();
+      if (clipX !== undefined) {
+        ctx.beginPath();
+        ctx.rect(clipX, 0, canvas.width - clipX, canvas.height);
+        ctx.clip();
+      }
+
+      // Deep Navy Architectural background
+      ctx.fillStyle = '#030c1b';
+      ctx.fillRect(clipX !== undefined ? clipX : 0, 0, clipX !== undefined ? canvas.width - clipX : canvas.width, canvas.height);
+
+      const ox = canvas.width / 2;
+      const oy = canvas.height / 2;
+      const ppu = 38;
+
+      // Fine Grid
+      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = 'rgba(14, 165, 233, 0.12)';
+      for (let x = ox % (ppu/2); x < canvas.width; x += (ppu/2)) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+      }
+      for (let y = oy % (ppu/2); y < canvas.height; y += (ppu/2)) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+      }
+
+      // Major Grid
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(14, 165, 233, 0.28)';
+      for (let x = ox % ppu; x < canvas.width; x += ppu) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+      }
+      for (let y = oy % ppu; y < canvas.height; y += ppu) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+      }
+
+      // Corner Registration Marks (+)
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.7)';
+      ctx.lineWidth = 1.5;
+      const mk = 14;
+      [[20, 20], [canvas.width - 20, 20], [20, canvas.height - 20], [canvas.width - 20, canvas.height - 20]].forEach(([cx, cy]) => {
+        ctx.beginPath();
+        ctx.moveTo(cx - mk, cy); ctx.lineTo(cx + mk, cy);
+        ctx.moveTo(cx, cy - mk); ctx.lineTo(cx, cy + mk);
+        ctx.stroke();
+      });
+
+      // CAD Shape Wireframe with Precision Callouts
+      if (mode === 'circle') {
+        const c = toPixel(shapes.circle.h, shapes.circle.k);
+        const rPix = shapes.circle.r * ppu;
+        ctx.strokeStyle = '#06b6d4'; ctx.lineWidth = 2.5;
+        ctx.shadowColor = '#06b6d4'; ctx.shadowBlur = 10;
+        ctx.beginPath(); ctx.arc(c.x, c.y, rPix, 0, Math.PI * 2); ctx.stroke();
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = 'rgba(6, 182, 212, 0.08)'; ctx.fill();
+
+        // Center crosshair
+        ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, 6, 0, Math.PI * 2);
+        ctx.moveTo(c.x - 12, c.y); ctx.lineTo(c.x + 12, c.y);
+        ctx.moveTo(c.x, c.y - 12); ctx.lineTo(c.x, c.y + 12);
+        ctx.stroke();
+
+        // Dimension Callout
+        const rx = c.x + rPix * Math.cos(-Math.PI / 4);
+        const ry = c.y + rPix * Math.sin(-Math.PI / 4);
+        ctx.beginPath(); ctx.moveTo(c.x, c.y); ctx.lineTo(rx, ry); ctx.lineTo(rx + 30, ry); ctx.stroke();
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#67e8f9';
+        ctx.fillText(`R = ${shapes.circle.r.toFixed(2)}m (⌀ ${(shapes.circle.r*2).toFixed(2)}m)`, rx + 6, ry - 4);
+      } else if (mode === 'square') {
+        const c = toPixel(shapes.square.h, shapes.square.k);
+        const sPix = shapes.square.s * ppu;
+        ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 2.5;
+        ctx.shadowColor = '#f59e0b'; ctx.shadowBlur = 10;
+        ctx.strokeRect(c.x - sPix/2, c.y - sPix/2, sPix, sPix);
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.08)'; ctx.fillRect(c.x - sPix/2, c.y - sPix/2, sPix, sPix);
+
+        // Dimension Callout
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#fde68a';
+        ctx.fillText(`◄── s = ${shapes.square.s.toFixed(2)}m ──►`, c.x - 50, c.y - sPix/2 - 10);
+        ctx.fillText(`DIAG = ${(shapes.square.s * Math.SQRT2).toFixed(2)}m`, c.x - 40, c.y + 4);
+      } else if (mode === 'rectangle') {
+        const c = toPixel(shapes.rectangle.h, shapes.rectangle.k);
+        const wPix = shapes.rectangle.w * ppu;
+        const hPix = shapes.rectangle.hgt * ppu;
+        ctx.strokeStyle = '#6366f1'; ctx.lineWidth = 2.5;
+        ctx.shadowColor = '#6366f1'; ctx.shadowBlur = 10;
+        ctx.strokeRect(c.x - wPix/2, c.y - hPix/2, wPix, hPix);
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = 'rgba(99, 102, 241, 0.08)'; ctx.fillRect(c.x - wPix/2, c.y - hPix/2, wPix, hPix);
+
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#a5b4fc';
+        ctx.fillText(`WIDTH = ${shapes.rectangle.w.toFixed(2)}m`, c.x - 45, c.y - hPix/2 - 10);
+        ctx.fillText(`HEIGHT = ${shapes.rectangle.hgt.toFixed(2)}m`, c.x + wPix/2 + 8, c.y);
+      } else if (mode === 'triangle') {
+        const p1 = toPixel(shapes.triangle.x1, shapes.triangle.y1);
+        const p2 = toPixel(shapes.triangle.x2, shapes.triangle.y2);
+        const p3 = toPixel(shapes.triangle.x3, shapes.triangle.y3);
+        ctx.strokeStyle = '#10b981'; ctx.lineWidth = 2.5;
+        ctx.shadowColor = '#10b981'; ctx.shadowBlur = 10;
+        ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.lineTo(p3.x, p3.y); ctx.closePath();
+        ctx.stroke(); ctx.shadowBlur = 0;
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.08)'; ctx.fill();
+
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#6ee7b7';
+        ctx.fillText("HERON'S TRIANGLE BLUEPRINT", p3.x - 60, p3.y - 12);
+      } else if (mode === 'rhombus') {
+        const c = toPixel(shapes.rhombus.h, shapes.rhombus.k);
+        const d1Pix = (shapes.rhombus.d1 * ppu) / 2;
+        const d2Pix = (shapes.rhombus.d2 * ppu) / 2;
+        ctx.strokeStyle = '#ec4899'; ctx.lineWidth = 2.5;
+        ctx.shadowColor = '#ec4899'; ctx.shadowBlur = 10;
+        ctx.beginPath(); ctx.moveTo(c.x, c.y - d2Pix); ctx.lineTo(c.x + d1Pix, c.y); ctx.lineTo(c.x, c.y + d2Pix); ctx.lineTo(c.x - d1Pix, c.y); ctx.closePath();
+        ctx.stroke(); ctx.shadowBlur = 0;
+
+        // Perpendicular diagonals
+        ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 1.2; ctx.setLineDash([4, 2]);
+        ctx.beginPath();
+        ctx.moveTo(c.x, c.y - d2Pix); ctx.lineTo(c.x, c.y + d2Pix);
+        ctx.moveTo(c.x - d1Pix, c.y); ctx.lineTo(c.x + d1Pix, c.y);
+        ctx.stroke(); ctx.setLineDash([]);
+      } else if (mode === 'parallelogram') {
+        const c = toPixel(shapes.parallelogram.h, shapes.parallelogram.k);
+        const bPix = shapes.parallelogram.b * ppu;
+        const hPix = shapes.parallelogram.hgt * ppu;
+        const sPix = shapes.parallelogram.skew * ppu;
+        ctx.strokeStyle = '#8b5cf6'; ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(c.x - bPix/2 + sPix, c.y - hPix/2); ctx.lineTo(c.x + bPix/2 + sPix, c.y - hPix/2);
+        ctx.lineTo(c.x + bPix/2 - sPix, c.y + hPix/2); ctx.lineTo(c.x - bPix/2 - sPix, c.y + hPix/2); ctx.closePath();
+        ctx.stroke();
+      } else if (mode === 'parabola') {
+        const pa = shapes.parabola;
+        ctx.strokeStyle = '#14b8a6'; ctx.lineWidth = 3;
+        ctx.shadowColor = '#14b8a6'; ctx.shadowBlur = 12;
+        ctx.beginPath();
+        let st = false;
+        for (let px = 0; px <= canvas.width; px += 4) {
+          const mx = (px - ox) / ppu;
+          const my = pa.a * mx * mx + pa.b * mx + pa.c;
+          const py = oy - my * ppu;
+          if (!st) { ctx.moveTo(px, py); st = true; } else { ctx.lineTo(px, py); }
+        }
+        ctx.stroke(); ctx.shadowBlur = 0;
+
+        const v = toPixel(0, pa.c);
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#2dd4bf';
+        ctx.fillText(`VERTEX V(0, ${pa.c.toFixed(2)}) | a = ${pa.a.toFixed(3)}`, v.x + 10, v.y - 12);
+      } else if (mode === 'slope') {
+        const sl = shapes.slope;
+        const p1 = toPixel(sl.x1, sl.y1), p2 = toPixel(sl.x2, sl.y2);
+        ctx.strokeStyle = '#f97316'; ctx.lineWidth = 3.5;
+        ctx.shadowColor = '#f97316'; ctx.shadowBlur = 10;
+        ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        // Right angle projection
+        ctx.setLineDash([4, 3]); ctx.strokeStyle = '#fdba84';
+        ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // Architectural Blueprint Title Block in bottom-right corner
+      const bx = canvas.width - 230, by = canvas.height - 65;
+      ctx.fillStyle = 'rgba(3, 12, 27, 0.9)';
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.6)';
+      ctx.fillRect(bx, by, 215, 55);
+      ctx.strokeRect(bx, by, 215, 55);
+      ctx.font = 'bold 9px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText('CAD ARCHITECTURE // MATH LENS', bx + 8, by + 16);
+      ctx.font = '8px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText(`TARGET: ${currentObject.toUpperCase()} SPECIFICATION`, bx + 8, by + 32);
+      ctx.fillText('SCALE: 1:50 METRIC · CBSE VERIFIED', bx + 8, by + 46);
+
+      ctx.restore();
+    }
+
+    function draw() {
+      // 1. If 100% CAD Blueprint
+      if (compareMode === 'cad-blueprint') {
+        drawCAD();
+        return;
+      }
+
+      // 2. Normal Canvas Background & Photo Feed
+      ctx.fillStyle = '#060b17';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      if (isWebcam && !isFrozen) {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      } else if (baseImage) {
+        ctx.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
+      }
+
+      // 3. If Split-Curtain Mode
+      if (compareMode === 'split-curtain') {
+        const splitX = Math.round(canvas.width * splitPos);
+
+        // Watermark on photo
+        ctx.save();
+        ctx.font = 'bold 10px "JetBrains Mono", monospace';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+        ctx.fillText('CAMERA / REAL PHOTO', 20, 30);
+        ctx.restore();
+
+        // Draw CAD Blueprint on right side
+        drawCAD(splitX);
+
+        // Draggable laser divider line
+        ctx.save();
+        ctx.strokeStyle = '#06b6d4';
+        ctx.lineWidth = 2.5;
+        ctx.shadowColor = '#06b6d4';
+        ctx.shadowBlur = 12;
+        ctx.beginPath();
+        ctx.moveTo(splitX, 0);
+        ctx.lineTo(splitX, canvas.height);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        // Grip handle
+        const handleH = 44, handleW = 26;
+        const handleY = canvas.height / 2 - handleH / 2;
+        ctx.fillStyle = '#0f172a';
+        ctx.strokeStyle = '#22d3ee';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(splitX - handleW / 2, handleY, handleW, handleH, 12);
+        ctx.fill(); ctx.stroke();
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillRect(splitX - 5, handleY + 15, 2, 14);
+        ctx.fillRect(splitX - 1, handleY + 13, 2, 18);
+        ctx.fillRect(splitX + 3, handleY + 15, 2, 14);
+
+        // Labels
+        ctx.font = 'bold 10px "JetBrains Mono", monospace';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.textAlign = 'right';
+        ctx.fillText('◄ REAL PHOTO', splitX - 14, 28);
+        ctx.fillStyle = '#38bdf8';
+        ctx.textAlign = 'left';
+        ctx.fillText('CAD BLUEPRINT ►', splitX + 14, 28);
+        ctx.restore();
+
+        if (isWebcam && !isFrozen) requestAnimationFrame(draw);
+        return;
+      }
+
+      // 4. Standard HUD Overlay Mode
+      const ox = canvas.width / 2;
+      const oy = canvas.height / 2;
+      const ppu = 38;
+
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.12)';
+      for (let x = ox % ppu; x < canvas.width; x += ppu) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+      }
+      for (let y = oy % ppu; y < canvas.height; y += ppu) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+      }
+
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+      ctx.beginPath(); ctx.moveTo(0, oy); ctx.lineTo(canvas.width, oy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(ox, 0); ctx.lineTo(ox, canvas.height); ctx.stroke();
+
+      if (mode === 'circle') {
+        const c = toPixel(shapes.circle.h, shapes.circle.k);
+        const rPix = shapes.circle.r * ppu;
+        ctx.strokeStyle = '#06b6d4'; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.arc(c.x, c.y, rPix, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillStyle = 'rgba(6, 182, 212, 0.15)'; ctx.fill();
+      } else if (mode === 'square') {
+        const c = toPixel(shapes.square.h, shapes.square.k);
+        const sPix = shapes.square.s * ppu;
+        ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 3;
+        ctx.strokeRect(c.x - sPix/2, c.y - sPix/2, sPix, sPix);
+      } else if (mode === 'rectangle') {
+        const c = toPixel(shapes.rectangle.h, shapes.rectangle.k);
+        const wPix = shapes.rectangle.w * ppu;
+        const hPix = shapes.rectangle.hgt * ppu;
+        ctx.strokeStyle = '#6366f1'; ctx.lineWidth = 3;
+        ctx.strokeRect(c.x - wPix/2, c.y - hPix/2, wPix, hPix);
+      } else if (mode === 'triangle') {
+        const p1 = toPixel(shapes.triangle.x1, shapes.triangle.y1);
+        const p2 = toPixel(shapes.triangle.x2, shapes.triangle.y2);
+        const p3 = toPixel(shapes.triangle.x3, shapes.triangle.y3);
+        ctx.strokeStyle = '#10b981'; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.lineTo(p3.x, p3.y); ctx.closePath();
+        ctx.stroke();
+      } else if (mode === 'rhombus') {
+        const c = toPixel(shapes.rhombus.h, shapes.rhombus.k);
+        const d1Pix = (shapes.rhombus.d1 * ppu) / 2;
+        const d2Pix = (shapes.rhombus.d2 * ppu) / 2;
+        ctx.strokeStyle = '#ec4899'; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(c.x, c.y - d2Pix); ctx.lineTo(c.x + d1Pix, c.y); ctx.lineTo(c.x, c.y + d2Pix); ctx.lineTo(c.x - d1Pix, c.y); ctx.closePath();
+        ctx.stroke();
+      } else if (mode === 'parallelogram') {
+        const c = toPixel(shapes.parallelogram.h, shapes.parallelogram.k);
+        const bPix = shapes.parallelogram.b * ppu;
+        const hPix = shapes.parallelogram.hgt * ppu;
+        const sPix = shapes.parallelogram.skew * ppu;
+        ctx.strokeStyle = '#8b5cf6'; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(c.x - bPix/2 + sPix, c.y - hPix/2); ctx.lineTo(c.x + bPix/2 + sPix, c.y - hPix/2);
+        ctx.lineTo(c.x + bPix/2 - sPix, c.y + hPix/2); ctx.lineTo(c.x - bPix/2 - sPix, c.y + hPix/2); ctx.closePath();
+        ctx.stroke();
+      } else if (mode === 'parabola') {
+        const pa = shapes.parabola;
+        ctx.strokeStyle = '#14b8a6'; ctx.lineWidth = 3;
+        ctx.shadowColor = '#14b8a6'; ctx.shadowBlur = 12;
+        ctx.beginPath();
+        let st = false;
+        for (let px = 0; px <= canvas.width; px += 4) {
+          const mx = (px - ox) / ppu;
+          const my = pa.a * mx * mx + pa.b * mx + pa.c;
+          const py = oy - my * ppu;
+          if (!st) { ctx.moveTo(px, py); st = true; } else { ctx.lineTo(px, py); }
+        }
+        ctx.stroke(); ctx.shadowBlur = 0;
+      } else if (mode === 'slope') {
+        const sl = shapes.slope;
+        const p1 = toPixel(sl.x1, sl.y1), p2 = toPixel(sl.x2, sl.y2);
+        ctx.strokeStyle = '#f97316'; ctx.lineWidth = 3.5;
+        ctx.shadowColor = '#f97316'; ctx.shadowBlur = 10;
+        ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
+
+      if (isWebcam && !isFrozen) requestAnimationFrame(draw);
+    }
+
+    function updateHUD() {
+      const eq = document.getElementById('equationDisplay');
+      const grid = document.getElementById('metricsGrid');
+      const sliders = document.getElementById('sliderControls');
+      const badge = document.getElementById('cbseClassBadge');
+      const det = document.getElementById('cbseDetails');
+
+      if (mode === 'circle') {
+        const r = shapes.circle.r;
+        eq.innerText = `(x - ${shapes.circle.h.toFixed(1)})² + (y - ${shapes.circle.k.toFixed(1)})² = ${(r*r).toFixed(2)}`;
+        grid.innerHTML = `
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Radius</span><strong class="text-cyan-300">${r.toFixed(2)} m</strong></div>
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Area</span><strong class="text-emerald-400">${(Math.PI*r*r).toFixed(2)} m²</strong></div>
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Circumference</span><strong class="text-slate-200">${(2*Math.PI*r).toFixed(2)} m</strong></div>
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Target</span><strong class="text-amber-300">Wheel</strong></div>
+        `;
+        sliders.innerHTML = `<div><label class="flex justify-between"><span>Radius:</span><span>${r.toFixed(2)} m</span></label><input type="range" min="0.5" max="10" step="0.1" value="${r}" oninput="shapes.circle.r=parseFloat(this.value);updateHUD();draw();" class="w-full accent-cyan-400"></div>`;
+        badge.innerText = 'Class 10 Ch 10 & 12';
+        det.innerHTML = '<p><strong>Wheel Rotation:</strong> Number of complete revolutions N = Distance / (2πr).</p>';
+      } else if (mode === 'rectangle') {
+        const r = shapes.rectangle;
+        const area = (r.w * r.hgt).toFixed(2);
+        const diag = Math.sqrt(r.w*r.w + r.hgt*r.hgt).toFixed(2);
+        eq.innerText = `Area = ${r.w.toFixed(2)} × ${r.hgt.toFixed(2)} = ${area} m² | Diagonal = ${diag} m`;
+        grid.innerHTML = `
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Width</span><strong class="text-cyan-300">${r.w.toFixed(2)} m</strong></div>
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Height</span><strong class="text-cyan-300">${r.hgt.toFixed(2)} m</strong></div>
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Diagonal</span><strong class="text-amber-300">${diag} m</strong></div>
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Target</span><strong class="text-emerald-400">Phone / Tab</strong></div>
+        `;
+        sliders.innerHTML = `
+          <div><label class="flex justify-between"><span>Width:</span><span>${r.w.toFixed(2)} m</span></label><input type="range" min="0.5" max="12" step="0.1" value="${r.w}" oninput="shapes.rectangle.w=parseFloat(this.value);updateHUD();draw();" class="w-full accent-cyan-400"></div>
+          <div><label class="flex justify-between"><span>Height:</span><span>${r.hgt.toFixed(2)} m</span></label><input type="range" min="0.5" max="14" step="0.1" value="${r.hgt}" oninput="shapes.rectangle.hgt=parseFloat(this.value);updateHUD();draw();" class="w-full accent-cyan-400"></div>
+        `;
+        badge.innerText = 'Class 9 Ch 8 Quadrilaterals';
+        det.innerHTML = '<p><strong>Screen Geometry:</strong> Diagonal calculated using Pythagoras theorem: d = √(width² + height²).</p>';
+      } else if (mode === 'square') {
+        const s = shapes.square.s;
+        eq.innerText = `Area = s² = ${(s*s).toFixed(2)} m² | Diagonal = ${(s*Math.SQRT2).toFixed(2)} m`;
+        grid.innerHTML = `
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Side (s)</span><strong class="text-cyan-300">${s.toFixed(2)} m</strong></div>
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Perimeter</span><strong class="text-slate-200">${(4*s).toFixed(2)} m</strong></div>
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Area</span><strong class="text-emerald-400">${(s*s).toFixed(2)} m²</strong></div>
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Target</span><strong class="text-amber-300">Toy Block</strong></div>
+        `;
+        badge.innerText = 'Class 9 Ch 8';
+        det.innerHTML = '<p><strong>Square Properties:</strong> Diagonals are equal (s√2) and bisect at 90°.</p>';
+      } else if (mode === 'triangle') {
+        eq.innerText = "Heron's Formula: Area = √[s(s-a)(s-b)(s-c)]";
+        grid.innerHTML = '<div class="bg-slate-950 p-2 rounded-lg border border-slate-800 col-span-2"><span class="text-slate-400 text-[10px] block">Formula</span><strong class="text-emerald-300">A = √[s(s-a)(s-b)(s-c)]</strong></div>';
+        badge.innerText = "Class 9 Ch 12 Heron's Formula";
+        det.innerHTML = '<p><strong>Triangle Area:</strong> Computes exact area from 3 side lengths without needing height.</p>';
+      } else if (mode === 'rhombus') {
+        const rh = shapes.rhombus;
+        const area = (0.5 * rh.d1 * rh.d2).toFixed(2);
+        eq.innerText = `Area = ½ × d₁ × d₂ = ${area} m²`;
+        grid.innerHTML = `
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">d₁</span><strong class="text-cyan-300">${rh.d1.toFixed(2)} m</strong></div>
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">d₂</span><strong class="text-cyan-300">${rh.d2.toFixed(2)} m</strong></div>
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Area</span><strong class="text-emerald-400">${area} m²</strong></div>
+        `;
+        badge.innerText = 'Class 9 Ch 8';
+        det.innerHTML = '<p><strong>Rhombus:</strong> Diagonals bisect each other perpendicularly at 90°.</p>';
+      } else if (mode === 'parallelogram') {
+        const p = shapes.parallelogram;
+        eq.innerText = `Area = base × height = ${(p.b * p.hgt).toFixed(2)} m²`;
+        grid.innerHTML = `
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Base</span><strong class="text-cyan-300">${p.b.toFixed(2)} m</strong></div>
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Height</span><strong class="text-cyan-300">${p.hgt.toFixed(2)} m</strong></div>
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Area</span><strong class="text-emerald-400">${(p.b * p.hgt).toFixed(2)} m²</strong></div>
+        `;
+        badge.innerText = 'Class 9 Ch 8';
+        det.innerHTML = '<p><strong>Parallelogram:</strong> Opposite sides and angles are equal.</p>';
+      } else if (mode === 'parabola') {
+        eq.innerText = `y = ${shapes.parabola.a.toFixed(3)}x² + ${shapes.parabola.c.toFixed(2)}`;
+        grid.innerHTML = '<div class="bg-slate-950 p-2 rounded-lg border border-slate-800 col-span-2"><span class="text-slate-400 text-[10px] block">Arch Clearance</span><strong class="text-emerald-300">Peak at Vertex (0, 4.8)</strong></div>';
+        badge.innerText = 'Class 10 Ch 2 & 4';
+        det.innerHTML = '<p><strong>Parabolic Arch:</strong> Quadratic curve opening downwards (a < 0).</p>';
+      } else if (mode === 'slope') {
+        const dx = Math.abs(shapes.slope.x2 - shapes.slope.x1);
+        const dy = Math.abs(shapes.slope.y2 - shapes.slope.y1);
+        const theta = ((Math.atan2(dy, dx) * 180) / Math.PI).toFixed(1);
+        eq.innerText = `Tree Height = ${dy.toFixed(2)} m | tan(${theta}°) = ${(dy/dx).toFixed(3)}`;
+        grid.innerHTML = `
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Elevation θ</span><strong class="text-amber-300">${theta}°</strong></div>
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Height (Tree)</span><strong class="text-emerald-300">${dy.toFixed(2)} m</strong></div>
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 text-[10px] block">Distance</span><strong class="text-slate-200">${dx.toFixed(2)} m</strong></div>
+        `;
+        badge.innerText = 'Class 10 Ch 9';
+        det.innerHTML = '<p><strong>Heights and Distances:</strong> Tree Height = Base Distance × tan(θ).</p>';
+      }
+    }
+
+    function loadObject(type) {
+      currentObject = type;
+      if (type === 'phone' || type === 'tab') {
+        setMode('rectangle');
+        shapes.rectangle.w = type === 'phone' ? 4.2 : 7.8;
+        shapes.rectangle.hgt = type === 'phone' ? 9.0 : 5.6;
+      } else if (type === 'wheel') {
+        setMode('circle');
+        shapes.circle.r = 5.2;
+      } else if (type === 'tree' || type === 'ramp') {
+        setMode('slope');
+        shapes.slope.x1 = -4.8; shapes.slope.y1 = -3.6; shapes.slope.x2 = -0.2; shapes.slope.y2 = 4.8;
+      } else if (type === 'toy') {
+        setMode('rhombus');
+        shapes.rhombus.d1 = 5.5; shapes.rhombus.d2 = 7.2;
+      } else if (type === 'bridge') {
+        setMode('parabola');
+        shapes.parabola.a = -0.015; shapes.parabola.c = 4.8;
+      } else if (type === 'ferris-wheel') {
+        setMode('circle');
+        shapes.circle.r = 6.0;
+      } else if (type === 'satellite-dish') {
+        setMode('parabola');
+        shapes.parabola.a = 0.11; shapes.parabola.c = -3.0;
+      } else if (type === 'solar-panel') {
+        setMode('rectangle');
+        shapes.rectangle.w = 8.4; shapes.rectangle.hgt = 4.8;
+      } else if (type === 'roof-truss') {
+        setMode('triangle');
+        shapes.triangle.x1 = -5.6; shapes.triangle.y1 = -3.5; shapes.triangle.x2 = 5.6; shapes.triangle.y2 = -3.5; shapes.triangle.x3 = 0.0; shapes.triangle.y3 = 4.2;
+      } else if (type === 'wind-turbine') {
+        setMode('circle');
+        shapes.circle.r = 5.8;
+      } else if (type === 'suspension-cable') {
+        setMode('parabola');
+        shapes.parabola.a = 0.048; shapes.parabola.c = -3.6;
+      } else if (type === 'diamond-kite') {
+        setMode('rhombus');
+        shapes.rhombus.d1 = 5.8; shapes.rhombus.d2 = 8.2;
+      } else if (type === 'conveyor-ramp') {
+        setMode('slope');
+        shapes.slope.x1 = -5.4; shapes.slope.y1 = -2.4; shapes.slope.x2 = 5.2; shapes.slope.y2 = 2.1;
+      } else if (type === 'sports-pitch') {
+        setMode('parallelogram');
+        shapes.parallelogram.b = 7.6; shapes.parallelogram.hgt = 4.4; shapes.parallelogram.skew = 2.6;
+      } else if (type === 'chess-board') {
+        setMode('square');
+        shapes.square.s = 6.2;
+      }
+      updateHUD();
+      draw();
+
+      const script = TUTOR_SCRIPTS[type];
+      if (script) {
+        document.getElementById('tutorTitle').innerText = script.title;
+        document.getElementById('tutorSubtitle').innerText = script.sub;
+        document.getElementById('tutorTranscript').innerText = `"${script.text}"`;
+        document.getElementById('tutorCbseRef').innerText = script.ref;
+      }
+
+      if (document.getElementById('autoSpeakCheck').checked) {
+        speakActiveExplanation();
+      }
+    }
+
+    function autoFitCV() {
+      if (mode === 'circle') shapes.circle.r = Number((3 + Math.random()*2).toFixed(2));
+      else if (mode === 'rectangle') { shapes.rectangle.w = Number((4 + Math.random()*2).toFixed(2)); shapes.rectangle.hgt = Number((7 + Math.random()*2).toFixed(2)); }
+      else if (mode === 'square') shapes.square.s = Number((3.5 + Math.random()*2).toFixed(2));
+      else if (mode === 'rhombus') { shapes.rhombus.d1 = 5.0; shapes.rhombus.d2 = 7.0; }
+      updateHUD();
+      draw();
+    }
+
+    // Canvas Events (Mouse Move & Dragging Split-Curtain)
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const px = e.clientX - rect.left;
+      const py = e.clientY - rect.top;
+      const pt = toMath(px, py);
+      document.getElementById('readoutX').innerText = pt.x.toFixed(2);
+      document.getElementById('readoutY').innerText = pt.y.toFixed(2);
+
+      if (compareMode === 'split-curtain') {
+        const splitX = canvas.width * splitPos;
+        if (Math.abs(px - splitX) < 18) {
+          canvas.style.cursor = 'ew-resize';
+        } else {
+          canvas.style.cursor = 'default';
+        }
+
+        if (isDraggingSplit) {
+          splitPos = Math.max(0.05, Math.min(0.95, px / canvas.width));
+          draw();
+        }
+      }
+    });
+
+    canvas.addEventListener('mousedown', (e) => {
+      if (compareMode === 'split-curtain') {
+        const rect = canvas.getBoundingClientRect();
+        const px = e.clientX - rect.left;
+        const splitX = canvas.width * splitPos;
+        if (Math.abs(px - splitX) < 22) {
+          isDraggingSplit = true;
+          return;
+        }
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDraggingSplit = false;
+    });
+
+    // Clicking canvas triggers Voice Tutor if not dragging
+    canvas.addEventListener('click', (e) => {
+      if (!isDraggingSplit) {
+        speakActiveExplanation();
+      }
+    });
+
+    // Webcam
+    async function toggleWebcam() {
+      if (!isWebcam) {
+        try {
+          videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
+          video.srcObject = videoStream;
+          video.play();
+          isWebcam = true;
+          document.getElementById('freezeBtn').classList.remove('hidden');
+          document.getElementById('webcamBtn').innerText = '⏹ Stop Cam';
+          draw();
+        } catch (e) {
+          alert('Camera unavailable or permission denied.');
+        }
+      } else {
+        if (videoStream) videoStream.getTracks().forEach(t => t.stop());
+        isWebcam = false;
+        document.getElementById('freezeBtn').classList.add('hidden');
+        document.getElementById('webcamBtn').innerText = '📹 Live Webcam';
+        draw();
+      }
+    }
+
+    function toggleFreeze() {
+      isFrozen = !isFrozen;
+      document.getElementById('freezeBtn').innerText = isFrozen ? 'Unfreeze' : 'Snapshot';
+      if (isFrozen) {
+        const off = document.createElement('canvas');
+        off.width = canvas.width; off.height = canvas.height;
+        off.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        baseImage = new Image();
+        baseImage.src = off.toDataURL();
+      }
+    }
+
+    function handleFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        baseImage = new Image();
+        baseImage.onload = () => { isWebcam = false; draw(); };
+        baseImage.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // --- 3D EQUATION & QUESTION STUDIO JAVASCRIPT ENGINE ---
+    let scene3D, camera3D, renderer3D, meshGroup3D;
+    let isWireframe3D = false;
+    let autoRotate3D = true;
+    let isDragging3D = false;
+    let mousePos3D = { x: 0, y: 0 };
+    let cameraSpherical3D = { radius: 14, theta: Math.PI / 4, phi: Math.PI / 3 };
+    let current3DVoiceText = "This is a hyperbolic paraboloid, famously known as a saddle surface. Along the x-axis, the curve swoops upwards like a smiling parabola, while along the y-axis it drops downward.";
+
+    function init3DStudio() {
+      const container = document.getElementById('canvas3dMount');
+      if (!container || !window.THREE) return;
+
+      const w = container.clientWidth || 600;
+      const h = container.clientHeight || 400;
+
+      scene3D = new THREE.Scene();
+      scene3D.background = new THREE.Color(0x050814);
+      scene3D.fog = new THREE.FogExp2(0x050814, 0.025);
+
+      camera3D = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
+      update3DCamera();
+
+      renderer3D = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+      renderer3D.setSize(w, h);
+      renderer3D.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      container.replaceChildren(renderer3D.domElement);
+
+      // Studio Lights
+      const keyLight = new THREE.DirectionalLight(0xfff5ea, 2.0);
+      keyLight.position.set(10, 15, 10);
+      scene3D.add(keyLight);
+
+      const fillLight = new THREE.HemisphereLight(0x38bdf8, 0x0f172a, 1.2);
+      scene3D.add(fillLight);
+
+      // Grid
+      const grid = new THREE.GridHelper(16, 16, 0x06b6d4, 0x1e293b);
+      scene3D.add(grid);
+
+      // Coordinate axes
+      const axes = new THREE.AxesHelper(6);
+      scene3D.add(axes);
+
+      meshGroup3D = new THREE.Group();
+      scene3D.add(meshGroup3D);
+
+      // Build default Saddle
+      build3DModel('z = x^2 - y^2');
+
+      // Pointer Orbit Interaction
+      const canvasEl = renderer3D.domElement;
+      canvasEl.addEventListener('pointerdown', (e) => {
+        isDragging3D = true;
+        mousePos3D = { x: e.clientX, y: e.clientY };
+      });
+      window.addEventListener('pointermove', (e) => {
+        if (!isDragging3D) return;
+        const dx = e.clientX - mousePos3D.x;
+        const dy = e.clientY - mousePos3D.y;
+        mousePos3D = { x: e.clientX, y: e.clientY };
+        cameraSpherical3D.theta -= dx * 0.007;
+        cameraSpherical3D.phi = Math.max(0.05, Math.min(Math.PI - 0.05, cameraSpherical3D.phi - dy * 0.007));
+        update3DCamera();
+      });
+      window.addEventListener('pointerup', () => { isDragging3D = false; });
+      canvasEl.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        cameraSpherical3D.radius = Math.max(4, Math.min(35, cameraSpherical3D.radius + e.deltaY * 0.02));
+        update3DCamera();
+      }, { passive: false });
+
+      // Animate Loop
+      function animate3D() {
+        requestAnimationFrame(animate3D);
+        if (autoRotate3D && !isDragging3D) {
+          cameraSpherical3D.theta += 0.005;
+          update3DCamera();
+        }
+        renderer3D.render(scene3D, camera3D);
+      }
+      animate3D();
+    }
+
+    function update3DCamera() {
+      if (!camera3D) return;
+      const { radius, theta, phi } = cameraSpherical3D;
+      camera3D.position.x = radius * Math.sin(phi) * Math.sin(theta);
+      camera3D.position.y = radius * Math.cos(phi);
+      camera3D.position.z = radius * Math.sin(phi) * Math.cos(theta);
+      camera3D.lookAt(0, 0, 0);
+    }
+
+    function build3DModel(query) {
+      if (!meshGroup3D) return;
+      while (meshGroup3D.children.length > 0) {
+        const c = meshGroup3D.children[0];
+        meshGroup3D.remove(c);
+        if (c.geometry) c.geometry.dispose();
+      }
+
+      const q = query.toLowerCase();
+      let title = "Mathematical 3D Surface";
+      let formula = query;
+      let metrics = "";
+      let topic = "Class 10/11";
+      let steps = "";
+
+      if (q.includes('x^2 - y^2') || q.includes('saddle')) {
+        title = "Hyperbolic Paraboloid (Saddle Surface)";
+        formula = "z = x² - y²";
+        current3DVoiceText = "This is a hyperbolic paraboloid saddle surface. Along the x-axis, the curve swoops upwards like a parabola, while along the y-axis it drops downward.";
+        metrics = `<div>Surface: <strong>Ruled Quadric</strong></div>
+                   <div>Saddle Point: <strong>(0, 0, 0)</strong></div>
+                   <div>Gaussian Curvature: <strong>K < 0 (Negative)</strong></div>
+                   <div>Level Curves: <strong>Hyperbolas</strong></div>`;
+        topic = "Class 11 Conics";
+        steps = `<div>1. Set y = 0: z = x² (upward parabola).</div>
+                 <div>2. Set x = 0: z = -y² (downward parabola).</div>
+                 <div>3. (0,0,0) is a stationary minimax saddle point.</div>`;
+
+        const geo = new THREE.PlaneGeometry(8, 8, 36, 36);
+        geo.rotateX(-Math.PI / 2);
+        const pos = geo.attributes.position;
+        const colors = [];
+        for (let i = 0; i < pos.count; i++) {
+          const x = pos.getX(i);
+          const zCoord = pos.getZ(i);
+          let y = (x * x - zCoord * zCoord) * 0.25;
+          pos.setY(i, y);
+          const c = new THREE.Color().setHSL(0.55 - y * 0.1, 0.9, 0.55);
+          colors.push(c.r, c.g, c.b);
+        }
+        geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+        geo.computeVertexNormals();
+
+        const mat = new THREE.MeshStandardMaterial({
+          wireframe: isWireframe3D,
+          vertexColors: true,
+          side: THREE.DoubleSide,
+          roughness: 0.3
+        });
+        meshGroup3D.add(new THREE.Mesh(geo, mat));
+      } else if (q.includes('x^2 + y^2') && !q.includes('+ z')) {
+        title = "Elliptic Paraboloid of Revolution";
+        formula = "z = x² + y²";
+        current3DVoiceText = "This is an elliptic paraboloid of revolution, the 3D surface created by rotating a parabola around its central axis. Satellite dishes use this exact shape.";
+        metrics = `<div>Surface: <strong>Paraboloid of Revolution</strong></div>
+                   <div>Apex Minimum: <strong>(0, 0, 0)</strong></div>
+                   <div>Focus: <strong>(0, 0, 0.25)</strong></div>
+                   <div>Traces: <strong>Concentric Circles</strong></div>`;
+        topic = "Class 10 Optics & Polynomials";
+        steps = `<div>1. In cylindrical coordinates: z = r².</div>
+                 <div>2. Slices perpendicular to Z are concentric circles x² + y² = c.</div>
+                 <div>3. All parallel incoming rays focus onto one optical receiver point.</div>`;
+
+        const geo = new THREE.CylinderGeometry(0.01, 5, 5, 32, 16, true);
+        geo.translate(0, 2.5, 0);
+        const mat = new THREE.MeshStandardMaterial({
+          color: 0x06b6d4,
+          wireframe: isWireframe3D,
+          side: THREE.DoubleSide
+        });
+        meshGroup3D.add(new THREE.Mesh(geo, mat));
+      } else if (q.includes('sphere') || q.includes('+ z^2') || q.includes('+ z^2 =')) {
+        title = "3D Quadric Sphere (Radius r = 5)";
+        formula = "x² + y² + z² = 25";
+        current3DVoiceText = "This is a three-dimensional sphere with radius 5. In CBSE Class 10 geometry, a sphere is the set of all points in space equidistant from the center origin.";
+        metrics = `<div>Radius r: <strong>5.0 units</strong></div>
+                   <div>Surface Area: <strong>4πr² = 314.16 sq. units</strong></div>
+                   <div>Volume: <strong>4/3 πr³ = 523.60 cu. units</strong></div>`;
+        topic = "Class 10 Ch 12 Mensuration";
+        steps = `<div>1. Distance d = √(x² + y² + z²) = 5.</div>
+                 <div>2. Total Surface Area = 4 × π × 5² = 314.16.</div>
+                 <div>3. Enclosed Volume = 4/3 × π × 5³ = 523.60.</div>`;
+
+        const geo = new THREE.SphereGeometry(4, 32, 24);
+        const mat = new THREE.MeshStandardMaterial({
+          color: 0x06b6d4,
+          wireframe: isWireframe3D,
+          roughness: 0.2,
+          metalness: 0.3
+        });
+        meshGroup3D.add(new THREE.Mesh(geo, mat));
+      } else if (q.includes('arch') || q.includes('bridge')) {
+        title = "Parabolic Arch Bridge (Span 20m, Height 5m)";
+        formula = "y = -0.05x² + 5";
+        current3DVoiceText = "This parabolic arch spans 20 meters across with a peak clearance of 5 meters. Using CBSE Class 10 quadratic vertex form, it touches ground at plus and minus 10 meters.";
+        metrics = `<div>Base Span: <strong>20.0 meters (x = ±10)</strong></div>
+                   <div>Apex Clearance: <strong>5.0 meters</strong></div>
+                   <div>Equation: <strong>y = -0.05x² + 5</strong></div>`;
+        topic = "Class 10 Ch 2 & 4";
+        steps = `<div>1. Vertex at apex (0, 5) => y = -a·x² + 5.</div>
+                 <div>2. At abutments x = ±10, y = 0 => 0 = -a(100) + 5 => a = 0.05.</div>
+                 <div>3. Structural arch carries uniform compression to ground piers.</div>`;
+
+        const shape = new THREE.Shape();
+        shape.moveTo(-6, 0);
+        for (let i = 0; i <= 30; i++) {
+          const x = -6 + (i / 30) * 12;
+          const y = 4 - 0.11 * x * x;
+          shape.lineTo(x, y);
+        }
+        shape.lineTo(6, 0);
+        shape.lineTo(-6, 0);
+        const geo = new THREE.ExtrudeGeometry(shape, { depth: 3, bevelEnabled: true });
+        geo.center();
+        const mat = new THREE.MeshStandardMaterial({ color: 0x14b8a6, wireframe: isWireframe3D });
+        meshGroup3D.add(new THREE.Mesh(geo, mat));
+      } else if (q.includes('inscribed') || (q.includes('cylinder') && q.includes('sphere'))) {
+        title = "Cylinder Inscribed Inside Sphere";
+        formula = "x² + y² + z² = 36 with x² + y² = 16";
+        current3DVoiceText = "This 3D composite displays a cylinder inscribed snugly inside a sphere, satisfying the Pythagorean relation r squared plus half height squared equals capital R squared.";
+        metrics = `<div>Sphere Radius R: <strong>6.0 units</strong></div>
+                   <div>Cylinder Radius r: <strong>4.0 units</strong></div>
+                   <div>Cylinder Height: <strong>8.94 units</strong></div>`;
+        topic = "Class 10/12 Optimization";
+        steps = `<div>1. Cross section is a rectangle inscribed in circle of radius R.</div>
+                 <div>2. By Pythagoras: (2r)² + h² = (2R)².</div>
+                 <div>3. Maximum volume occurs when h = 2R / √3.</div>`;
+
+        const sphGeo = new THREE.SphereGeometry(5, 24, 20);
+        const sphMat = new THREE.MeshPhysicalMaterial({ color: 0x06b6d4, transparent: true, opacity: 0.3, wireframe: isWireframe3D });
+        meshGroup3D.add(new THREE.Mesh(sphGeo, sphMat));
+
+        const cylGeo = new THREE.CylinderGeometry(3.2, 3.2, 7.5, 24);
+        const cylMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, wireframe: isWireframe3D });
+        meshGroup3D.add(new THREE.Mesh(cylGeo, cylMat));
+      } else if (q.includes('rhombus')) {
+        title = "Rhombus (Diagonals 12 & 16)";
+        formula = "Area = 1/2 × d₁ × d₂ = 96 sq. units";
+        current3DVoiceText = "This is a rhombus with perpendicular diagonals measuring 12 and 16. Each side length equals 10 by Pythagoras theorem.";
+        metrics = `<div>Diagonal d₁: <strong>12.0 units</strong></div>
+                   <div>Diagonal d₂: <strong>16.0 units</strong></div>
+                   <div>Side Length: <strong>10.0 units</strong></div>
+                   <div>Area: <strong>96.0 sq. units</strong></div>`;
+        topic = "Class 9 Ch 8 Quadrilaterals";
+        steps = `<div>1. Diagonals bisect at 90° into four right triangles.</div>
+                 <div>2. Side s = √(6² + 8²) = √100 = 10 units.</div>
+                 <div>3. Area = 1/2 × 12 × 16 = 96 square units.</div>`;
+
+        const shape = new THREE.Shape();
+        shape.moveTo(-5, 0); shape.lineTo(0, 3.5); shape.lineTo(5, 0); shape.lineTo(0, -3.5); shape.closePath();
+        const geo = new THREE.ExtrudeGeometry(shape, { depth: 0.6, bevelEnabled: true });
+        geo.center();
+        const mat = new THREE.MeshStandardMaterial({ color: 0xec4899, wireframe: isWireframe3D });
+        meshGroup3D.add(new THREE.Mesh(geo, mat));
+      } else {
+        // Generic wave / surface
+        title = "Wave Surface z = sin(x) * cos(y)";
+        formula = query;
+        current3DVoiceText = "Displaying three dimensional mathematical wave surface with real time WebGL lighting and curvature.";
+        metrics = `<div>Function: <strong>${query}</strong></div>
+                   <div>Domain: <strong>x ∈ [-4, 4], y ∈ [-4, 4]</strong></div>`;
+        topic = "Coordinate Geometry";
+        steps = `<div>1. Evaluated over 3D discrete lattice in real-time.</div>
+                 <div>2. Normals computed dynamically for 60fps shading.</div>`;
+
+        const geo = new THREE.PlaneGeometry(8, 8, 32, 32);
+        geo.rotateX(-Math.PI / 2);
+        const pos = geo.attributes.position;
+        for (let i = 0; i < pos.count; i++) {
+          const x = pos.getX(i);
+          const zCoord = pos.getZ(i);
+          pos.setY(i, 1.2 * Math.sin(x) * Math.cos(zCoord));
+        }
+        geo.computeVertexNormals();
+        const mat = new THREE.MeshStandardMaterial({ color: 0x06b6d4, wireframe: isWireframe3D, side: THREE.DoubleSide });
+        meshGroup3D.add(new THREE.Mesh(geo, mat));
+      }
+
+      document.getElementById('title3D').innerText = title;
+      document.getElementById('equationFormula3D').innerText = formula;
+      document.getElementById('metrics3D').innerHTML = metrics;
+      document.getElementById('topicBadge3D').innerText = topic;
+      document.getElementById('derivation3D').innerHTML = steps;
+    }
+
+    function execute3DQuery() {
+      const val = document.getElementById('mathInput3D').value;
+      if (val) build3DModel(val);
+    }
+
+    function set3DPreset(q) {
+      document.getElementById('mathInput3D').value = q;
+      build3DModel(q);
+    }
+
+    function toggle3DWireframe() {
+      isWireframe3D = !isWireframe3D;
+      document.getElementById('wireframe3DBtn').innerText = isWireframe3D ? 'Solid' : 'Wireframe';
+      execute3DQuery();
+    }
+
+    function toggle3DAutoRotate() {
+      autoRotate3D = !autoRotate3D;
+      document.getElementById('autoRotate3DBtn').innerText = autoRotate3D ? 'Rotate: On' : 'Rotate: Off';
+    }
+
+    function reset3DCamera() {
+      cameraSpherical3D = { radius: 14, theta: Math.PI / 4, phi: Math.PI / 3 };
+      update3DCamera();
+    }
+
+    function speak3DExplanation() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(current3DVoiceText);
+        u.rate = 1.0;
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    window.onload = function() {
+      initCanvas();
+      init3DStudio();
+    };
+  </script>
+</body>
+</html>

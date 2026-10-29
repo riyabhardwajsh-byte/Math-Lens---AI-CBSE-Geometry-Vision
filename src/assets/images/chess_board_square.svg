@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="tableBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="60%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <linearGradient id="darkWood" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3b1d09" />
+      <stop offset="50%" stop-color="#451a03" />
+      <stop offset="100%" stop-color="#2a1205" />
+    </linearGradient>
+    <linearGradient id="lightWood" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fed7aa" />
+      <stop offset="50%" stop-color="#fde047" />
+      <stop offset="100%" stop-color="#fef08a" />
+    </linearGradient>
+  </defs>
+
+  <!-- Grandmaster Tournament Table -->
+  <rect width="800" height="600" fill="url(#tableBg)" />
+
+  <!-- Chessboard Center at (400, 300), Outer Square Size = 420x420 -->
+  <!-- Outer Walnut Border -->
+  <rect x="180" y="80" width="440" height="440" rx="14" fill="#1c1917" stroke="#78350f" stroke-width="8" />
+  <!-- Inner Inlay Bevel -->
+  <rect x="195" y="95" width="410" height="410" rx="6" fill="#451a03" stroke="#f59e0b" stroke-width="2" />
+
+  <!-- 8x8 Grid of 64 Equal Squares: Each square = 48x48 px, starting at (208, 108) to (592, 492) -->
+  <g id="squares">
+    <!-- Row 1 -->
+    <rect x="208" y="108" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="256" y="108" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="304" y="108" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="352" y="108" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="400" y="108" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="448" y="108" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="496" y="108" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="544" y="108" width="48" height="48" fill="url(#darkWood)" />
+
+    <!-- Row 2 -->
+    <rect x="208" y="156" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="256" y="156" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="304" y="156" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="352" y="156" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="400" y="156" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="448" y="156" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="496" y="156" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="544" y="156" width="48" height="48" fill="url(#lightWood)" />
+
+    <!-- Row 3 -->
+    <rect x="208" y="204" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="256" y="204" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="304" y="204" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="352" y="204" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="400" y="204" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="448" y="204" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="496" y="204" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="544" y="204" width="48" height="48" fill="url(#darkWood)" />
+
+    <!-- Row 4 -->
+    <rect x="208" y="252" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="256" y="252" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="304" y="252" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="352" y="252" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="400" y="252" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="448" y="252" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="496" y="252" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="544" y="252" width="48" height="48" fill="url(#lightWood)" />
+
+    <!-- Row 5 -->
+    <rect x="208" y="300" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="256" y="300" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="304" y="300" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="352" y="300" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="400" y="300" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="448" y="300" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="496" y="300" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="544" y="300" width="48" height="48" fill="url(#darkWood)" />
+
+    <!-- Row 6 -->
+    <rect x="208" y="348" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="256" y="348" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="304" y="348" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="352" y="348" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="400" y="348" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="448" y="348" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="496" y="348" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="544" y="348" width="48" height="48" fill="url(#lightWood)" />
+
+    <!-- Row 7 -->
+    <rect x="208" y="396" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="256" y="396" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="304" y="396" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="352" y="396" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="400" y="396" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="448" y="396" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="496" y="396" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="544" y="396" width="48" height="48" fill="url(#darkWood)" />
+
+    <!-- Row 8 -->
+    <rect x="208" y="444" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="256" y="444" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="304" y="444" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="352" y="444" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="400" y="444" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="448" y="444" width="48" height="48" fill="url(#lightWood)" />
+    <rect x="496" y="444" width="48" height="48" fill="url(#darkWood)" />
+    <rect x="544" y="444" width="48" height="48" fill="url(#lightWood)" />
+  </g>
+
+  <!-- Border Notation Characters (A-H, 1-8) -->
+  <g fill="#d97706" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">
+    <text x="232" y="515">A</text><text x="280" y="515">B</text><text x="328" y="515">C</text><text x="376" y="515">D</text>
+    <text x="424" y="515">E</text><text x="472" y="515">F</text><text x="520" y="515">G</text><text x="568" y="515">H</text>
+    <text x="190" y="137">8</text><text x="190" y="185">7</text><text x="190" y="233">6</text><text x="190" y="281">5</text>
+    <text x="190" y="329">4</text><text x="190" y="377">3</text><text x="190" y="425">2</text><text x="190" y="473">1</text>
+  </g>
+
+  <!-- Diagonal Pythagoras Line d = s * sqrt(2) -->
+  <line x1="208" y1="492" x2="592" y2="108" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="6 4" opacity="0.8" />
+  
+  <!-- Labels -->
+  <text x="400" y="60" fill="#facc15" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle">REGULAR SQUARE: Side s = 6.2 m | Diagonal d = s√2</text>
+</svg>

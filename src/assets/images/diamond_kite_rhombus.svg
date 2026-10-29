@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="cloudSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="60%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#bae6fd" />
+    </linearGradient>
+    <linearGradient id="quad1Grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ec4899" />
+      <stop offset="100%" stop-color="#be185d" />
+    </linearGradient>
+    <linearGradient id="quad2Grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#0e7490" />
+    </linearGradient>
+    <linearGradient id="quad3Grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="quad4Grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#6d28d9" />
+    </linearGradient>
+  </defs>
+
+  <!-- Bright Summer Sky Background -->
+  <rect width="800" height="600" fill="url(#cloudSky)" />
+  
+  <!-- Soft Clouds -->
+  <ellipse cx="140" cy="180" rx="90" ry="35" fill="#ffffff" opacity="0.3" />
+  <ellipse cx="680" cy="120" rx="110" ry="40" fill="#ffffff" opacity="0.35" />
+
+  <!-- Kite Center at (400, 280)
+       Horizontal diagonal d1 = 220px: Left = (290, 280), Right = (510, 280)
+       Vertical diagonal d2 = 320px: Top = (400, 120), Bottom = (400, 440)
+  -->
+  <g>
+    <!-- Quadrant 1: Top Right Triangle -->
+    <polygon points="400,280 400,120 510,280" fill="url(#quad1Grad)" stroke="#ffffff" stroke-width="1.5" />
+    <!-- Quadrant 2: Top Left Triangle -->
+    <polygon points="400,280 400,120 290,280" fill="url(#quad2Grad)" stroke="#ffffff" stroke-width="1.5" />
+    <!-- Quadrant 3: Bottom Left Triangle -->
+    <polygon points="400,280 400,440 290,280" fill="url(#quad3Grad)" stroke="#ffffff" stroke-width="1.5" />
+    <!-- Quadrant 4: Bottom Right Triangle -->
+    <polygon points="400,280 400,440 510,280" fill="url(#quad4Grad)" stroke="#ffffff" stroke-width="1.5" />
+
+    <!-- Outer Perimeter Reinforcement Tape -->
+    <polygon points="400,120 510,280 400,440 290,280" fill="none" stroke="#f8fafc" stroke-width="5" stroke-linejoin="round" />
+
+    <!-- Carbon Fiber Spars (Diagonals intersecting perpendicularly at (400, 280)) -->
+    <!-- Vertical Spine (d2) -->
+    <line x1="400" y1="100" x2="400" y2="455" stroke="#1e293b" stroke-width="7" stroke-linecap="round" />
+    <line x1="400" y1="100" x2="400" y2="455" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" />
+    
+    <!-- Horizontal Cross Spar (d1) -->
+    <line x1="275" y1="280" x2="525" y2="280" stroke="#1e293b" stroke-width="7" stroke-linecap="round" />
+    <line x1="275" y1="280" x2="525" y2="280" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" />
+
+    <!-- Center 90° Cross Fitting -->
+    <circle cx="400" cy="280" r="9" fill="#0f172a" stroke="#ffffff" stroke-width="2" />
+    <!-- Right Angle Symbol -->
+    <path d="M 400 265 L 415 265 L 415 280" fill="none" stroke="#ffffff" stroke-width="2" />
+
+    <!-- Kite Tail & Ribbons floating downward -->
+    <path d="M 400 455 Q 430 490, 390 530 T 420 580" fill="none" stroke="#be185d" stroke-width="4" stroke-linecap="round" />
+    <!-- Ribbon bows -->
+    <polygon points="410,480 425,475 425,485" fill="#facc15" />
+    <polygon points="380,520 365,515 365,525" fill="#06b6d4" />
+    <polygon points="415,555 430,550 430,560" fill="#ec4899" />
+  </g>
+
+  <!-- Labels -->
+  <text x="400" y="80" fill="#0f172a" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">RHOMBUS: Diagonals d₁ ⊥ d₂ (90°)</text>
+</svg>

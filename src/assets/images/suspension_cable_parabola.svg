@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="twilightSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16" />
+      <stop offset="60%" stop-color="#1e1b4b" />
+      <stop offset="85%" stop-color="#312e81" />
+      <stop offset="100%" stop-color="#4338ca" />
+    </linearGradient>
+    <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+  </defs>
+
+  <!-- Sky & Bay Water -->
+  <rect width="800" height="600" fill="url(#twilightSky)" />
+  <rect y="480" width="800" height="120" fill="url(#waterGrad)" />
+  <line x1="0" y1="480" x2="800" y2="480" stroke="#38bdf8" stroke-width="1.5" opacity="0.4" />
+
+  <!-- Roadway Deck: Horizontal beam at y = 430 -->
+  <rect x="0" y="420" width="800" height="24" fill="#1e293b" stroke="#334155" stroke-width="2" />
+  <line x1="0" y1="428" x2="800" y2="428" stroke="#f59e0b" stroke-width="3" stroke-dasharray="25 15" />
+
+  <!-- Bridge Towers (Art Deco Twin Pylons) -->
+  <!-- Left Tower at x = 180 -->
+  <rect x="160" y="80" width="40" height="400" fill="#ea580c" stroke="#9a3412" stroke-width="3" />
+  <rect x="170" y="140" width="20" height="40" fill="#0f172a" />
+  <rect x="170" y="220" width="20" height="50" fill="#0f172a" />
+  <rect x="170" y="310" width="20" height="60" fill="#0f172a" />
+  
+  <!-- Right Tower at x = 620 -->
+  <rect x="600" y="80" width="40" height="400" fill="#ea580c" stroke="#9a3412" stroke-width="3" />
+  <rect x="610" y="140" width="20" height="40" fill="#0f172a" />
+  <rect x="610" y="220" width="20" height="50" fill="#0f172a" />
+  <rect x="610" y="310" width="20" height="60" fill="#0f172a" />
+
+  <!-- Backstay Cables to Anchorages -->
+  <path d="M 0 350 Q 80 200, 180 100" fill="none" stroke="#fdba74" stroke-width="6" />
+  <path d="M 620 100 Q 720 200, 800 350" fill="none" stroke="#fdba74" stroke-width="6" />
+
+  <!-- Parabolic Suspension Main Cable between Towers:
+       Tower top left: (180, 100)
+       Midspan vertex: (400, 400)
+       Tower top right: (620, 100)
+  -->
+  <path d="M 180 100 Q 400 400, 620 100" fill="none" stroke="#f97316" stroke-width="8" />
+  <path d="M 180 100 Q 400 400, 620 100" fill="none" stroke="#fed7aa" stroke-width="3" />
+
+  <!-- Vertical Wire Rope Suspenders / Hangers dropping to deck -->
+  <g stroke="#e2e8f0" stroke-width="2" opacity="0.8">
+    <line x1="220" y1="140" x2="220" y2="420" />
+    <line x1="260" y1="200" x2="260" y2="420" />
+    <line x1="300" y1="260" x2="300" y2="420" />
+    <line x1="340" y1="320" x2="340" y2="420" />
+    <line x1="380" y1="380" x2="380" y2="420" />
+    <line x1="420" y1="380" x2="420" y2="420" />
+    <line x1="460" y1="320" x2="460" y2="420" />
+    <line x1="500" y1="260" x2="500" y2="420" />
+    <line x1="540" y1="200" x2="540" y2="420" />
+    <line x1="580" y1="140" x2="580" y2="420" />
+  </g>
+
+  <!-- Labels -->
+  <text x="400" y="440" fill="#fdba74" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">CABLE SAG APEX / VERTEX (0, -3.6)</text>
+</svg>
